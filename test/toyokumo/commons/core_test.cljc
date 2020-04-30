@@ -1,15 +1,13 @@
 (ns toyokumo.commons.core-test
   (:require
    [clojure.test :refer :all]
-   [schema.core :as s]
+   [helper :as h]
    [toyokumo.commons.core :refer [coll->map]])
   (:import
    (clojure.lang
     ExceptionInfo)))
 
-(use-fixtures :once (fn [f]
-                      (s/set-fn-validation! true)
-                      (f)))
+(use-fixtures :once h/enable-validation-fixture)
 
 (deftest coll->map-test
   (testing "Check arguments"

@@ -1,0 +1,10 @@
+{:list-indent-size 1
+ :line-break-functions? false
+ :line-break-vars? false
+ :max-consecutive-blank-lines 1
+ :padding-lines 1
+ :reformat-types? false
+ :remove-surrounding-whitespace? true
+ :remove-trailing-whitespace? true
+ :insert-missing-whitespace? true
+ :require-eof-newline? true}

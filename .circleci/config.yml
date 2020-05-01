@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/clojure:openjdk-8-lein-2.9.2-node-browsers-legacy
+      - image: circleci/clojure:openjdk-8-lein-2.9.1-node-browsers-legacy
         user: circleci
     working_directory: ~/repo
     steps:

@@ -12,6 +12,8 @@
                  [cheshire "5.10.0"]
                  [com.cognitect/transit-clj "1.0.324"]
                  [commons-codec/commons-codec "1.14"]
-                 [metosin/ring-http-response "0.9.1"]]
+                 [metosin/ring-http-response "0.9.1"]
+                 [org.apache.commons/commons-csv "1.8"]
+                 [commons-io/commons-io "2.6"]]
   :source-paths ["src" "src-cljs" "src-cljc"]
   :repl-options {:init-ns toyokumo.commons.core})

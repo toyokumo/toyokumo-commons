@@ -1,9 +1,13 @@
 # toyokumo-commons
 Utility functions that are used in multiple TOYOKUMO products.
 
+[![CircleCI](https://circleci.com/gh/toyokumo/toyokumo-commons.svg?style=svg)](https://circleci.com/gh/toyokumo/toyokumo-commons)
+[![cljdoc badge](https://cljdoc.org/badge/toyokumo/toyokumo-commons)](https://cljdoc.org/d/toyokumo/toyokumo-commons/CURRENT)
+[![Clojars Project](https://img.shields.io/clojars/v/toyokumo/toyokumo-commons.svg)](https://clojars.org/toyokumo/toyokumo-commons)
+
 ## Usage
 
-FIXME
+Read cljdoc.
 
 ## License
 

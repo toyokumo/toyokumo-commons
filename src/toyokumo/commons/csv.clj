@@ -10,7 +10,7 @@
     CSVParser
     CSVPrinter)))
 
-(def ^:private format-shema
+(def ^:private format-schema
   (s/enum :default
           :excel
           :informix-unload
@@ -25,7 +25,7 @@
           :tdf))
 
 (s/defn csv-format :- CSVFormat
-  [fmt :- format-shema]
+  [fmt :- format-schema]
   (case fmt
     :excel CSVFormat/EXCEL
     :informix-unload CSVFormat/INFORMIX_UNLOAD
@@ -50,7 +50,7 @@
   ([reader :- Reader]
    (csv-parser reader {:format :default}))
   ([reader :- Reader
-    opts :- {:format format-shema}]
+    opts :- {:format format-schema}]
    (CSVParser/parse reader (csv-format (:format opts)))))
 
 (defmulti read-all
@@ -86,7 +86,7 @@
   ([out :- Appendable]
    (csv-printer out {:format :default}))
   ([out :- Appendable
-    opts :- {:format format-shema}]
+    opts :- {:format format-schema}]
    (CSVPrinter. out (csv-format (:format opts)))))
 
 (defmulti write-all

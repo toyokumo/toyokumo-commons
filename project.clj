@@ -1,4 +1,4 @@
-(defproject toyokumo/toyokumo-commons "0.1.0"
+(defproject toyokumo/toyokumo-commons "0.1.1-SNAPSHOT"
   :description "Utility functions that are used in multiple TOYOKUMO products"
   :url "https://github.com/toyokumo/toyokumo-commons"
   :license {:name "Apache, Version 2.0"

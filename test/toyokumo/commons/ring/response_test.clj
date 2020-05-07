@@ -9,14 +9,24 @@
           :status 200
           :headers {"Content-Type" "text/html"}}
          (-> (ok "test")
-             (html)))))
+             (html))))
+  (is (= {:body "test"
+          :status 200
+          :headers {"Content-Type" "text/html; charset=sjis"}}
+         (-> (ok "test")
+             (html "sjis")))))
 
 (deftest json-test
   (is (= {:body "test"
           :status 200
           :headers {"Content-Type" "application/json"}}
          (-> (ok "test")
-             (json)))))
+             (json))))
+  (is (= {:body "test"
+          :status 200
+          :headers {"Content-Type" "application/json; charset=sjis"}}
+         (-> (ok "test")
+             (json "sjis")))))
 
 (deftest content-disposition-test
   (is (= {:body "test"

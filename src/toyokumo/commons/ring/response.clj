@@ -52,11 +52,17 @@
 
 ;;; Specific Content-Type
 
-(defn html [resp]
-  (content-type resp "text/html"))
+(defn html
+  ([resp]
+   (content-type resp "text/html"))
+  ([resp charset]
+   (content-type resp (str "text/html; charset=" charset))))
 
-(defn json [resp]
-  (content-type resp "application/json"))
+(defn json
+  ([resp]
+   (content-type resp "application/json"))
+  ([resp charset]
+   (content-type resp (str "application/json; charset=" charset))))
 
 (defn csv
   ([resp]

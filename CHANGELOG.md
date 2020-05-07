@@ -3,6 +3,10 @@
 ## [Unreleased]
 ### Changed
 
+## 0.1.3
+### Add
+- Add session utilities to `toyokumo.commons.ring.response`
+
 ## 0.1.2
 ### Add
 - Add `charset` option to `url-encode`, `url-decode` in `toyokumo.commons.url` and `html`, `json` and `csv` in `toyokumo.commons.ring.response`

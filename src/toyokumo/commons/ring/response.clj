@@ -69,3 +69,25 @@
    (content-type resp "text/csv"))
   ([resp charset]
    (content-type resp (str "text/csv; charset=" charset))))
+
+;;; Write session
+
+(defn session
+  "Write session. See ring.middleware.session"
+  ([resp m]
+   (session resp m false))
+  ([resp m recreate?]
+   (assoc resp :session (if recreate?
+                          (vary-meta m assoc :recreate true)
+                          m))))
+
+(defn flash
+  "Add flash data. See ring.middleware.flash/wrap-flash"
+  [resp m]
+  (assoc resp :flash m))
+
+(defn flash-success-message [resp msg]
+  (assoc-in resp [:flash :message] {:status :success :msg msg}))
+
+(defn flash-error-message [resp msg]
+  (assoc-in resp [:flash :message] {:status :error :msg msg}))

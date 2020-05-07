@@ -67,3 +67,47 @@
           :headers {"Content-Type" "text/csv; charset=sjis"}}
          (-> (ok "foo,bar")
              (csv "sjis")))))
+
+(deftest session-test
+  (let [resp (-> (ok "foo")
+                 (session {:id 1}))]
+    (is (= {:body "foo"
+            :status 200
+            :headers {}
+            :session {:id 1}}
+           resp))
+    (is (nil? (meta (:session resp)))))
+
+  (let [resp (-> (ok "foo")
+                 (session {:id 1} true))]
+    (is (= {:body "foo"
+            :status 200
+            :headers {}
+            :session {:id 1}}
+           resp))
+    (is (= {:recreate true}
+           (meta (:session resp))))))
+
+(deftest flash-test
+  (is (= {:body "foo"
+          :status 200
+          :headers {}
+          :flash {:id 1}}
+         (-> (ok "foo")
+             (flash {:id 1})))))
+
+(deftest flash-success-message-test
+  (is (= {:body "foo"
+          :status 200
+          :headers {}
+          :flash {:message {:status :success :msg "test message"}}}
+         (-> (ok "foo")
+             (flash-success-message "test message")))))
+
+(deftest flash-error-message-test
+  (is (= {:body "foo"
+          :status 200
+          :headers {}
+          :flash {:message {:status :error :msg "test message"}}}
+         (-> (ok "foo")
+             (flash-error-message "test message")))))

@@ -25,26 +25,35 @@
          (-> (ok "test")
              (content-disposition "hoge")))))
 
-(deftest csv-test
+(deftest attachment-test
   (is (= {:body "test"
           :status 200
-          :headers {"Content-Disposition" "attachment; filename=\"test.csv\"; filename*=UTF-8''test.csv"
-                    "Content-Type" "text/csv; charset=UTF-8"}}
+          :headers {"Content-Disposition" "attachment; filename=\"test.csv\"; filename*=UTF-8''test.csv"}}
          (-> (ok "test")
-             (csv "test.csv"))))
+             (attachment "test.csv"))))
 
   (is (= {:body "test"
           :status 200
           :headers {"Content-Disposition" (str "attachment; filename=\"あいうえお.csv\"; filename*=UTF-8''"
-                                               (tc.url/url-encode "あいうえお.csv"))
-                    "Content-Type" "text/csv; charset=UTF-8"}}
+                                               (tc.url/url-encode "あいうえお.csv"))}}
          (-> (ok "test")
-             (csv "あいうえお.csv"))))
+             (attachment "あいうえお.csv"))))
 
   (is (= {:body "test"
           :status 200
           :headers {"Content-Disposition" (str "attachment; filename=\"あいうえお.csv\"; filename*=windows-31j''"
-                                               (tc.url/url-encode "あいうえお.csv" "windows-31j"))
-                    "Content-Type" "text/csv; charset=windows-31j"}}
+                                               (tc.url/url-encode "あいうえお.csv" "windows-31j"))}}
          (-> (ok "test")
-             (csv "あいうえお.csv" "windows-31j")))))
+             (attachment "あいうえお.csv" "windows-31j")))))
+
+(deftest csv-test
+  (is (= {:body "foo,bar"
+          :status 200
+          :headers {"Content-Type" "text/csv"}}
+         (-> (ok "foo,bar")
+             (csv))))
+  (is (= {:body "foo,bar"
+          :status 200
+          :headers {"Content-Type" "text/csv; charset=sjis"}}
+         (-> (ok "foo,bar")
+             (csv "sjis")))))

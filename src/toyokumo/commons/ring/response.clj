@@ -34,6 +34,22 @@
 
 (def header res/header)
 
+(defn content-disposition [resp value]
+  (header resp "Content-Disposition" value))
+
+(defn attachment
+  "Use when you want to make a client save response as a file.
+  For example:
+   (let [csv-str \"foo, bar\"]
+     (-> (ok csv-str)
+         (attachment \"foobar.csv\")
+         (csv)))"
+  ([resp filename]
+   (attachment resp filename "UTF-8"))
+  ([resp filename charset]
+   (content-disposition resp (format "attachment; filename=\"%s\"; filename*=%s''%s"
+                                     filename charset (tc.url/url-encode filename charset)))))
+
 ;;; Specific Content-Type
 
 (defn html [resp]
@@ -42,15 +58,8 @@
 (defn json [resp]
   (content-type resp "application/json"))
 
-(defn content-disposition [resp value]
-  (header resp "Content-Disposition" value))
-
 (defn csv
-  ([resp filename]
-   (csv resp filename "UTF-8"))
-
-  ([resp filename charset]
-   (-> resp
-       (content-disposition (format "attachment; filename=\"%s\"; filename*=%s''%s"
-                                    filename charset (tc.url/url-encode filename charset)))
-       (content-type (str "text/csv; charset=" charset)))))
+  ([resp]
+   (content-type resp "text/csv"))
+  ([resp charset]
+   (content-type resp (str "text/csv; charset=" charset))))

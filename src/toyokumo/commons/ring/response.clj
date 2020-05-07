@@ -52,5 +52,5 @@
   ([resp filename charset]
    (-> resp
        (content-disposition (format "attachment; filename=\"%s\"; filename*=%s''%s"
-                                    filename charset (tc.url/url-encode filename)))
+                                    filename charset (tc.url/url-encode filename charset)))
        (content-type (str "text/csv; charset=" charset)))))

@@ -39,4 +39,12 @@
                                                (tc.url/url-encode "あいうえお.csv"))
                     "Content-Type" "text/csv; charset=UTF-8"}}
          (-> (ok "test")
-             (csv "あいうえお.csv")))))
+             (csv "あいうえお.csv"))))
+
+  (is (= {:body "test"
+          :status 200
+          :headers {"Content-Disposition" (str "attachment; filename=\"あいうえお.csv\"; filename*=windows-31j''"
+                                               (tc.url/url-encode "あいうえお.csv" "windows-31j"))
+                    "Content-Type" "text/csv; charset=windows-31j"}}
+         (-> (ok "test")
+             (csv "あいうえお.csv" "windows-31j")))))

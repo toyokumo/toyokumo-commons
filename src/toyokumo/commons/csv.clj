@@ -91,7 +91,7 @@
 
 (defmulti write-all
   "Write all CSV records into out.
-  valeus should be a vector like: [[\"foo\" \"\bar\"] [\"hoge\" \"fuga\"]]
+  values should be a vector like: [[\"foo\" \"\bar\"] [\"hoge\" \"fuga\"]]
 
   General usage:
     ;; Write on memory

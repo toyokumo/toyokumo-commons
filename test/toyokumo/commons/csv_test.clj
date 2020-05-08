@@ -3,12 +3,11 @@
    [clojure.java.io :as io]
    [clojure.string :as str]
    [clojure.test :refer :all]
-   [toyokumo.commons.csv :refer :all])
+   [toyokumo.commons.csv :refer :all]
+   [toyokumo.commons.io :as tc.io])
   (:import
    (java.io
-    File)
-   (org.apache.commons.io.input
-    BOMInputStream)))
+    File)))
 
 (def test-contents
   [["1" "2" "3" "4" "5"]
@@ -19,21 +18,19 @@
   (testing "Read utf-8 file"
     (is (= test-contents
            (with-open [parser (-> (io/resource "test/utf8.csv")
-                                  (io/reader :encoding "utf-8")
+                                  (tc.io/excluding-bom-reader)
                                   (csv-parser {:format :rfc4180}))]
              (read-all parser)))))
   (testing "Read utf-8 with bom file"
     (is (= test-contents
            (with-open [parser (-> (io/resource "test/utf8_bom.csv")
-                                  (io/input-stream :encoding "utf-8")
-                                  (BOMInputStream.)
-                                  (io/reader)
+                                  (tc.io/excluding-bom-reader :encoding "utf-8")
                                   (csv-parser {:format :rfc4180}))]
              (read-all parser)))))
   (testing "Read Shift_JIS file"
     (is (= test-contents
            (with-open [parser (-> (io/resource "test/sjis.csv")
-                                  (io/reader :encoding "sjis")
+                                  (tc.io/excluding-bom-reader :encoding "sjis")
                                   (csv-parser {:format :rfc4180}))]
              (read-all parser))))))
 

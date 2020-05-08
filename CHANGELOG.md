@@ -3,6 +3,10 @@
 ## [Unreleased]
 ### Changed
 
+## 0.1.4
+### Add
+- Add `toyokumo.commons.io/excluding-bom-reader`
+
 ## 0.1.3
 ### Add
 - Add session utilities to `toyokumo.commons.ring.response`

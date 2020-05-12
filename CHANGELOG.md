@@ -3,6 +3,10 @@
 ## [Unreleased]
 ### Changed
 
+## 0.1.5
+### Fixed
+- Fix `toyokumo.commons.ring.response/attachment` to work on IE
+
 ## 0.1.4
 ### Add
 - Add `toyokumo.commons.io/excluding-bom-reader`

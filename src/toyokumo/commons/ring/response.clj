@@ -44,11 +44,8 @@
      (-> (ok csv-str)
          (attachment \"foobar.csv\")
          (csv)))"
-  ([resp filename]
-   (attachment resp filename "UTF-8"))
-  ([resp filename charset]
-   (content-disposition resp (format "attachment; filename=\"%s\"; filename*=%s''%s"
-                                     filename charset (tc.url/url-encode filename charset)))))
+  [resp filename]
+  (content-disposition resp (str "attachment; filename=\"" (tc.url/url-encode filename) "\"")))
 
 ;;; Specific Content-Type
 

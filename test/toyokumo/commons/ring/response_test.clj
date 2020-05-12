@@ -38,23 +38,15 @@
 (deftest attachment-test
   (is (= {:body "test"
           :status 200
-          :headers {"Content-Disposition" "attachment; filename=\"test.csv\"; filename*=UTF-8''test.csv"}}
+          :headers {"Content-Disposition" "attachment; filename=\"test.csv\""}}
          (-> (ok "test")
              (attachment "test.csv"))))
 
   (is (= {:body "test"
-          :status 200
-          :headers {"Content-Disposition" (str "attachment; filename=\"あいうえお.csv\"; filename*=UTF-8''"
-                                               (tc.url/url-encode "あいうえお.csv"))}}
+          :headers {"Content-Disposition" "attachment; filename=\"%E3%81%82%E3%81%84%E3%81%86%E3%81%88%E3%81%8A.csv\""}
+          :status 200}
          (-> (ok "test")
-             (attachment "あいうえお.csv"))))
-
-  (is (= {:body "test"
-          :status 200
-          :headers {"Content-Disposition" (str "attachment; filename=\"あいうえお.csv\"; filename*=windows-31j''"
-                                               (tc.url/url-encode "あいうえお.csv" "windows-31j"))}}
-         (-> (ok "test")
-             (attachment "あいうえお.csv" "windows-31j")))))
+             (attachment "あいうえお.csv")))))
 
 (deftest csv-test
   (is (= {:body "foo,bar"

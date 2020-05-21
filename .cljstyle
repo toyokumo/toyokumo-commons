@@ -7,4 +7,5 @@
  :remove-surrounding-whitespace? true
  :remove-trailing-whitespace? true
  :insert-missing-whitespace? true
- :require-eof-newline? true}
+ :require-eof-newline? true
+ :indents {defrecord [[:inner 0] [:inner 1]]}}

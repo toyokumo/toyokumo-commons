@@ -15,6 +15,9 @@
                  [commons-codec/commons-codec "1.14"]
                  [metosin/ring-http-response "0.9.1"]
                  [org.apache.commons/commons-csv "1.8"]
-                 [commons-io/commons-io "2.6"]]
+                 [commons-io/commons-io "2.6"]
+                 [info.sunng/ring-jetty9-adapter "0.12.8"]
+                 [com.stuartsierra/component "1.0.0"]]
   :source-paths ["src" "src-cljs" "src-cljc"]
-  :repl-options {:init-ns toyokumo.commons.core})
+  :repl-options {:init-ns toyokumo.commons.core}
+  :profiles {:dev {:dependencies [[clj-http "3.10.1"]]}})

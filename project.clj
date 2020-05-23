@@ -17,7 +17,10 @@
                  [org.apache.commons/commons-csv "1.8"]
                  [commons-io/commons-io "2.6"]
                  [info.sunng/ring-jetty9-adapter "0.12.8"]
-                 [com.stuartsierra/component "1.0.0"]]
+                 [com.stuartsierra/component "1.0.0"]
+                 [hikari-cp "2.12.0"]
+                 [seancorfield/next.jdbc "1.0.424"]]
   :source-paths ["src" "src-cljs" "src-cljc"]
   :repl-options {:init-ns toyokumo.commons.core}
-  :profiles {:dev {:dependencies [[clj-http "3.10.1"]]}})
+  :profiles {:dev {:dependencies [[clj-http "3.10.1"]
+                                  [org.postgresql/postgresql "42.2.12"]]}})

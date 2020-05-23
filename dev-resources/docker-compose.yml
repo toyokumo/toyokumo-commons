@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:alpine
+    ports:
+      - "5555:5432"
+    environment:
+      - POSTGRES_USER=toyokumo
+      - POSTGRES_PASSWORD=commons
+      - POSTGRES_DB=toyokumo
+    volumes:
+      - toyokumocommons:/var/lib/postgresql/data
+    container_name: toyokumocommons
+
+volumes:
+  toyokumocommons:

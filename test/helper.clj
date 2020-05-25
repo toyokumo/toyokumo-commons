@@ -14,7 +14,7 @@
                    :username "toyokumo"
                    :password "commons"
                    :database-name "toyokumo"
-                   :port-number 5555})
+                   :port-number 5432})
 
 (defonce hc (atom nil))
 

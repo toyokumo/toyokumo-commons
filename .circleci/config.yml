@@ -5,6 +5,12 @@ jobs:
     docker:
       - image: circleci/clojure:openjdk-8-lein-2.9.1-node-browsers-legacy
         user: circleci
+      - image: postgres:alpine
+        environment:
+          POSTGRES_USER: toyokumo
+          POSTGRES_PASSWORD: commons
+          POSTGRES_DB: toyokumo
+
     working_directory: ~/repo
     steps:
       - checkout

@@ -55,80 +55,60 @@
 (s/defn fetch
   "execute select query and get all result rows as a sequence of map
 
-  opts:
-  :make-sqlvec - how to make sqlvec. default is *make-sqlvec*
-  :builder-fn  - how to format ResultSet. default is rs-builder using *label-fn*"
+  See for opts https://github.com/seancorfield/next-jdbc/blob/master/doc/all-the-options.md"
   ([ds sql]
    (fetch ds sql nil))
-  ([ds sql {:keys [make-sqlvec
-                   builder-fn]
-            :or {make-sqlvec *make-sqlvec*
-                 builder-fn rs-builder}}]
-   (let [sqlvec (make-sqlvec sql)]
-     (->> (jdbc/execute! ds sqlvec {:builder-fn builder-fn})
+  ([ds sql opts]
+   (let [sqlvec (*make-sqlvec* sql)]
+     (->> (jdbc/execute! ds sqlvec (merge {:builder-fn rs-builder} opts))
           (map #(into {} %))))))
 
 (s/defn fetch-one
   "execute select query and get a first row as a map
 
-  opts:
-  :make-sqlvec - how to make sqlvec. default is *make-sqlvec*
-  :builder-fn  - how to format ResultSet. default is rs-builder using *label-fn*"
+  See for opts https://github.com/seancorfield/next-jdbc/blob/master/doc/all-the-options.md"
   ([ds sql]
    (fetch-one ds sql nil))
-  ([ds sql {:keys [make-sqlvec
-                   builder-fn]
-            :or {make-sqlvec *make-sqlvec*
-                 builder-fn rs-builder}}]
-   (let [sqlvec (make-sqlvec sql)]
-     (some->> (jdbc/execute-one! ds sqlvec {:builder-fn builder-fn})
+  ([ds sql opts]
+   (let [sqlvec (*make-sqlvec* sql)]
+     (some->> (jdbc/execute-one! ds sqlvec (merge {:builder-fn rs-builder} opts))
               (into {})))))
 
 (s/defn execute :- [{s/Keyword s/Any}]
   "execute insert, update or delete query and get all effected rows as a sequence of map
 
-  opts:
-  :make-sqlvec - how to make sqlvec. default is *make-sqlvec*
-  :builder-fn  - how to format ResultSet. default is rs-builder using *label-fn*"
+  See for opts https://github.com/seancorfield/next-jdbc/blob/master/doc/all-the-options.md"
   ([ds sql]
    (execute ds sql nil))
-  ([ds sql {:keys [make-sqlvec
-                   builder-fn]
-            :or {make-sqlvec *make-sqlvec*
-                 builder-fn rs-builder}}]
-   (let [sqlvec (make-sqlvec sql)]
-     (->> (jdbc/execute! ds sqlvec {:return-keys true
-                                    :builder-fn builder-fn})
+  ([ds sql opts]
+   (let [sqlvec (*make-sqlvec* sql)]
+     (->> (jdbc/execute! ds sqlvec (merge {:builder-fn rs-builder}
+                                          opts
+                                          {:return-keys true}))
           (map #(into {} %))))))
 
 (s/defn execute-one :- (s/maybe {s/Keyword s/Any})
   "execute insert, update or delete query and get a first row as a map
 
-  opts:
-  :make-sqlvec - how to make sqlvec. default is *make-sqlvec*
-  :builder-fn  - how to format ResultSet. default is rs-builder using *label-fn*"
+  See for opts https://github.com/seancorfield/next-jdbc/blob/master/doc/all-the-options.md"
   ([ds sql]
    (execute-one ds sql nil))
-  ([ds sql {:keys [make-sqlvec
-                   builder-fn]
-            :or {make-sqlvec *make-sqlvec*
-                 builder-fn rs-builder}}]
-   (let [sqlvec (make-sqlvec sql)]
-     (some->> (jdbc/execute-one! ds sqlvec {:return-keys true
-                                            :builder-fn builder-fn})
+  ([ds sql opts]
+   (let [sqlvec (*make-sqlvec* sql)]
+     (some->> (jdbc/execute-one! ds sqlvec (merge {:builder-fn rs-builder}
+                                                  opts
+                                                  {:return-keys true}))
               (into {})))))
 
 (s/defn execute-batch :- (s/maybe s/Int)
   "execute insert, update or delete query and get the effected number
 
-  opts:
-  :make-sqlvec - how to make sqlvec. default is *make-sqlvec*"
+  See for opts https://github.com/seancorfield/next-jdbc/blob/master/doc/all-the-options.md"
   ([ds sql]
    (execute-batch ds sql nil))
-  ([ds sql {:keys [make-sqlvec]
-            :or {make-sqlvec *make-sqlvec*}}]
-   (let [sqlvec (make-sqlvec sql)]
-     (->> (jdbc/execute-one! ds sqlvec {:return-keys false})
+  ([ds sql opts]
+   (let [sqlvec (*make-sqlvec* sql)]
+     (->> (jdbc/execute-one! ds sqlvec (merge opts {:return-keys false}))
           ::jdbc/update-count))))
 
 (defn- copy-in*

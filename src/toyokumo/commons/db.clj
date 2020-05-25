@@ -150,3 +150,22 @@
                              (tc.csv/write-all printer values)
                              (StringReader. (str sb)))]
           (copy-in* conn sql reader))))))
+
+(defmacro with-transaction
+  "This macro is completely same as the next.jdbc/with-transaction.
+  It's copied in order that clients can only require this ns for DB access.
+
+  ===Original doc===
+  Given a transactable object, gets a connection and binds it to `sym`,
+  then executes the `body` in that context, committing any changes if the body
+  completes successfully, otherwise rolling back any changes made.
+
+  The options map supports:
+  * `:isolation` -- `:none`, `:read-committed`, `:read-uncommitted`,
+      `:repeatable-read`, `:serializable`,
+  * `:read-only` -- `true` / `false`,
+  * `:rollback-only` -- `true` / `false`.
+  ==================="
+  [[sym transactable opts] & body]
+  (let [con (vary-meta sym assoc :tag 'java.sql.Connection)]
+    `(jdbc/transact ~transactable (^{:once true} fn* [~con] ~@body) ~(or opts {}))))

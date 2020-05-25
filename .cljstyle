@@ -8,4 +8,5 @@
  :remove-trailing-whitespace? true
  :insert-missing-whitespace? true
  :require-eof-newline? true
- :indents {defrecord [[:inner 0] [:inner 1]]}}
+ :indents {defrecord [[:inner 0] [:inner 1]]
+           #"^(.*/)?with-" [[:inner 0]]}}

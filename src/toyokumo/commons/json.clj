@@ -1,14 +1,18 @@
 (ns toyokumo.commons.json
   (:require
    [camel-snake-kebab.core :as csk]
-   [cheshire.core :as json]
+   [jsonista.core :as json]
    [schema.core :as s]))
+
+(def ^:dynamic *mapper*
+  (json/object-mapper {:escape-non-ascii true
+                       :encode-key-fn csk/->camelCaseString
+                       :decode-key-fn csk/->kebab-case-keyword}))
 
 (s/defn json-encode :- s/Str
   [x :- s/Any]
-  (json/generate-string x {:key-fn csk/->camelCaseString
-                           :escape-non-ascii true}))
+  (json/write-value-as-string x *mapper*))
 
 (s/defn json-decode :- s/Any
   [s :- s/Str]
-  (json/parse-string s csk/->kebab-case-keyword))
+  (json/read-value s *mapper*))

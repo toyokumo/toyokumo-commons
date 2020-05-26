@@ -10,7 +10,6 @@
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [prismatic/schema "1.1.12"]
                  [camel-snake-kebab "0.4.1"]
-                 [cheshire "5.10.0"]
                  [com.cognitect/transit-clj "1.0.324"]
                  [commons-codec/commons-codec "1.14"]
                  [metosin/ring-http-response "0.9.1"]
@@ -19,7 +18,8 @@
                  [info.sunng/ring-jetty9-adapter "0.12.8"]
                  [com.stuartsierra/component "1.0.0"]
                  [hikari-cp "2.12.0"]
-                 [seancorfield/next.jdbc "1.0.424"]]
+                 [seancorfield/next.jdbc "1.0.424"]
+                 [metosin/jsonista "0.2.6"]]
   :source-paths ["src" "src-cljs" "src-cljc"]
   :repl-options {:init-ns toyokumo.commons.core}
   :profiles {:dev {:dependencies [[clj-http "3.10.1"]

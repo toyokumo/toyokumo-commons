@@ -169,3 +169,19 @@
   [[sym transactable opts] & body]
   (let [con (vary-meta sym assoc :tag 'java.sql.Connection)]
     `(jdbc/transact ~transactable (^{:once true} fn* [~con] ~@body) ~(or opts {}))))
+
+(defn transact-once [tx f opts]
+  (if (instance? java.sql.Connection tx)
+    (f tx)
+    (jdbc/transact tx f opts)))
+
+(defmacro with-db-transaction
+  "It is almost same as with-transaction but it supports nested transaction.
+
+  Like clojure.java.jdbc/with-db-transaction when two or more with-db-transaction
+  are nested, we want to rollback to top-level with-db-transaction.
+  We know we should use {:auto-commit false} and save points but it enables us to
+  migrate to next.jdbc easily"
+  [[sym transactable opts] & body]
+  (let [con (vary-meta sym assoc :tag 'java.sql.Connection)]
+    `(transact-once ~transactable (^{:once true} fn* [~con] ~@body) ~(or opts {}))))

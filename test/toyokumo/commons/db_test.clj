@@ -429,3 +429,52 @@
         (is (= 0
                (:cnt (db/fetch-one @h/hc ["select count(id) as cnt from toyokumo_commons"])))
             "There isn't any records for a exception occur")))))
+
+(deftest with-db-transaction-test
+  (let [uid1 (UUID/randomUUID)
+        product1 "foo"
+        price1 10000
+        ratio1 0.25
+        at1 (Timestamp/valueOf "2020-05-22 16:35:04")
+        v1 {:uid uid1
+            :product product1
+            :price price1
+            :ratio (bigdec ratio1)
+            :created-at at1}]
+    (testing "insert"
+      (testing "Thrown a exception"
+        (try
+          (db/with-db-transaction [db @h/hc]
+            (is (= (assoc v1 :id 1)
+                   (db/execute-one db
+                                   ["insert into toyokumo_commons
+                                   (uid, product, price, ratio, created_at)
+                                   values
+                                   (?, ?, ?, ?, ?)"
+                                    uid1 product1 price1 ratio1 at1])))
+            (is (= 1
+                   (:cnt (db/fetch-one db ["select count(id) as cnt from toyokumo_commons"]))))
+            (throw (SQLException. "test")))
+          (catch SQLException _))
+        (is (= 0
+               (:cnt (db/fetch-one @h/hc ["select count(id) as cnt from toyokumo_commons"])))
+            "There isn't any records for a exception occur")))
+
+    (testing "Nested transaction"
+      (try
+        (db/with-db-transaction [db @h/hc]
+          (db/with-db-transaction [db db]
+            (is (= (assoc v1 :id 2)
+                   (db/execute-one db
+                                   ["insert into toyokumo_commons
+                                   (uid, product, price, ratio, created_at)
+                                   values
+                                   (?, ?, ?, ?, ?)"
+                                    uid1 product1 price1 ratio1 at1])))
+            (is (= 1
+                   (:cnt (db/fetch-one db ["select count(id) as cnt from toyokumo_commons"])))))
+          (throw (SQLException. "test")))
+        (catch SQLException _))
+      (is (= 0
+             (:cnt (db/fetch-one @h/hc ["select count(id) as cnt from toyokumo_commons"])))
+          "There isn't any records for a exception occur"))))

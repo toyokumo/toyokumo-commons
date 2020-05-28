@@ -130,26 +130,31 @@
   (let [table (*format-table* table)
         columns (map *format-column* columns)
         sql (format "COPY %s (%s) FROM STDIN (FORMAT CSV)"
-                    table (str/join "," columns))]
-    (with-open [conn (jdbc/get-connection ds)]
-      (cond
-        (instance? Reader values)
-        (copy-in* conn sql values)
+                    table (str/join "," columns))
+        f* (fn [conn]
+             (cond
+               (instance? Reader values)
+               (copy-in* conn sql values)
 
-        (instance? InputStream values)
-        (with-open [reader (io/reader values)]
-          (copy-in* conn sql reader))
+               (instance? InputStream values)
+               (with-open [reader (io/reader values)]
+                 (copy-in* conn sql reader))
 
-        (string? values)
-        (with-open [reader (StringReader. values)]
-          (copy-in* conn sql reader))
+               (string? values)
+               (with-open [reader (StringReader. values)]
+                 (copy-in* conn sql reader))
 
-        :else
-        (with-open [reader (let [sb (StringBuilder.)
-                                 printer (tc.csv/csv-printer sb {:format :postgresql-csv})]
-                             (tc.csv/write-all printer values)
-                             (StringReader. (str sb)))]
-          (copy-in* conn sql reader))))))
+               :else
+               (with-open [reader (let [sb (StringBuilder.)
+                                        printer (tc.csv/csv-printer
+                                                 sb {:format :postgresql-csv})]
+                                    (tc.csv/write-all printer values)
+                                    (StringReader. (str sb)))]
+                 (copy-in* conn sql reader))))]
+    (if (instance? java.sql.Connection ds)
+      (f* ds)
+      (with-open [conn (jdbc/get-connection ds)]
+        (f* conn)))))
 
 (defmacro with-transaction
   "This macro is completely same as the next.jdbc/with-transaction.

@@ -10,6 +10,7 @@ jobs:
           POSTGRES_USER: toyokumo
           POSTGRES_PASSWORD: commons
           POSTGRES_DB: toyokumo
+      - image: redis:alpine
 
     working_directory: ~/repo
     steps:

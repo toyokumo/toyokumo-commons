@@ -10,8 +10,16 @@ services:
       - POSTGRES_PASSWORD=commons
       - POSTGRES_DB=toyokumo
     volumes:
-      - toyokumocommons:/var/lib/postgresql/data
-    container_name: toyokumocommons
+      - toyokumocommons-postgres:/var/lib/postgresql/data
+    container_name: toyokumocommons-postgres
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - toyokumocommons-redis:/data
+    container_name: toyokumocommons-redis
 
 volumes:
-  toyokumocommons:
+  toyokumocommons-postgres:
+  toyokumocommons-redis:

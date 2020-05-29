@@ -1,5 +1,6 @@
 (ns toyokumo.commons.redis.carmine
   (:require
+   [clojure.tools.logging :as log]
    [com.stuartsierra.component :as component]
    [taoensso.carmine :as car]
    [toyokumo.commons.health :as health]))
@@ -16,5 +17,6 @@
   (-alive? [this]
     (try
       (some? (car/wcar this (car/ping)))
-      (catch Exception _
+      (catch Exception e
+        (log/error "Carmine is dead" e)
         false))))

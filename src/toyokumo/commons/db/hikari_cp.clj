@@ -1,5 +1,6 @@
 (ns toyokumo.commons.db.hikari-cp
   (:require
+   [clojure.tools.logging :as log]
    [com.stuartsierra.component :as component]
    [hikari-cp.core :as hc]
    [next.jdbc :as jdbc]
@@ -27,5 +28,9 @@
   health/HealthCheck
   (-alive? [this]
     (if datasource
-      (= 1 (:alive (jdbc/execute-one! this ["select 1 as alive"])))
+      (try
+        (= 1 (:alive (jdbc/execute-one! this ["select 1 as alive"])))
+        (catch Exception e
+          (log/error "HikariCP is dead" e)
+          false))
       false)))

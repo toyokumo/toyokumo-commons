@@ -1,13 +1,6 @@
 (ns toyokumo.commons.ring.middleware.trailing-slash
   (:require
-   [clojure.string :as str]))
-
-(defn- ignore-trailing-slash [^String uri]
-  (if (and (string? uri)
-           (not= uri "/")
-           (str/ends-with? uri "/"))
-    (subs uri 0 (dec (count uri)))
-    uri))
+   [toyokumo.commons.util :as tc.util]))
 
 (defn wrap-trailing-slash
   "Modifies the request :uri and :path-info before calling the handler.
@@ -17,6 +10,6 @@
   [handler]
   (fn [req]
     (-> req
-        (update :uri ignore-trailing-slash)
-        (update :path-info ignore-trailing-slash)
+        (update :uri tc.util/remove-trailing-slash)
+        (update :path-info tc.util/remove-trailing-slash)
         handler)))

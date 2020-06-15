@@ -12,7 +12,7 @@
                  [camel-snake-kebab "0.4.1"]
                  [com.cognitect/transit-clj "1.0.324"]
                  [commons-codec/commons-codec "1.14"]
-                 [metosin/ring-http-response "0.9.1"]
+                 [metosin/ring-http-response "0.9.1" :exclusions [ring/ring-core]]
                  [org.apache.commons/commons-csv "1.8"]
                  [commons-io/commons-io "2.6"]
                  [info.sunng/ring-jetty9-adapter "0.12.8"]

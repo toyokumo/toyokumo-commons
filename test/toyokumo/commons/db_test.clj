@@ -495,4 +495,22 @@
         (catch SQLException _))
       (is (= 0
              (:cnt (db/fetch-one @h/hc ["select count(id) as cnt from toyokumo_commons"])))
-          "There isn't any records for a exception occur"))))
+          "There isn't any records for a exception occur"))
+
+    (testing "options map"
+      (is (= 0
+             (:cnt (db/fetch-one @h/hc ["select count(id) as cnt from toyokumo_commons"])))
+          "There isn't any records before inserting a new record.")
+
+      (db/with-db-transaction [db @h/hc {:rollback-only true}]
+        (is (some? (db/execute-one db
+                                   ["insert into toyokumo_commons
+                                   (uid, product)
+                                   values
+                                   (?, ?)"
+                                    uid1 product1])))
+        (is (= 1
+               (:cnt (db/fetch-one db ["select count(id) as cnt from toyokumo_commons"])))))
+      (is (= 0
+             (:cnt (db/fetch-one @h/hc ["select count(id) as cnt from toyokumo_commons"])))
+          "There isn't any reocrds because of rollback."))))

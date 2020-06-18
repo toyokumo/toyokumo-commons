@@ -3,20 +3,28 @@
 ## [Unreleased]
 ### Changed
 
+## 0.2.0
+### Added
+- Add components such as Jetty9Server, HikariCP and Carmine and functions to use them
+- Add ring middlewares such as wrap-health-check and wrap-trailing-slash
+
+### Changed
+- Use jsonista for encoding and decoding JSON
+
 ## 0.1.5
 ### Fixed
 - Fix `toyokumo.commons.ring.response/attachment` to work on IE
 
 ## 0.1.4
-### Add
+### Added
 - Add `toyokumo.commons.io/excluding-bom-reader`
 
 ## 0.1.3
-### Add
+### Added
 - Add session utilities to `toyokumo.commons.ring.response`
 
 ## 0.1.2
-### Add
+### Added
 - Add `charset` option to `url-encode`, `url-decode` in `toyokumo.commons.url` and `html`, `json` and `csv` in `toyokumo.commons.ring.response`
 
 ### Breaking

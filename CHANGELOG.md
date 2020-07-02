@@ -3,6 +3,10 @@
 ## [Unreleased]
 ### Changed
 
+## 0.2.1
+### Added
+- Add `qualified-name`
+
 ## 0.2.0
 ### Added
 - Add components such as Jetty9Server, HikariCP and Carmine and functions to use them

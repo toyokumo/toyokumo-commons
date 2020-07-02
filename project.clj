@@ -21,7 +21,8 @@
                  [seancorfield/next.jdbc "1.0.424"]
                  [metosin/jsonista "0.2.6"]
                  [com.taoensso/carmine "2.19.1"]
-                 [org.clojure/tools.logging "1.1.0"]]
+                 [org.clojure/tools.logging "1.1.0"]
+                 [com.sun.mail/jakarta.mail "1.6.5"]]
   :source-paths ["src" "src-cljs" "src-cljc"]
   :repl-options {:init-ns toyokumo.commons.core}
   :profiles {:dev {:dependencies [[clj-http "3.10.1"]

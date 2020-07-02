@@ -1,7 +1,8 @@
 # Change Log
 
 ## [Unreleased]
-### Changed
+### Added
+- Add email quote and unquote util
 
 ## 0.2.1
 ### Added

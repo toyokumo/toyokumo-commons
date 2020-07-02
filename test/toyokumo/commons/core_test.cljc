@@ -2,7 +2,7 @@
   (:require
    [clojure.test :refer :all]
    [helper :as h]
-   [toyokumo.commons.core :refer [coll->map]])
+   [toyokumo.commons.core :refer [coll->map qualified-name]])
   (:import
    (clojure.lang
     ExceptionInfo)))
@@ -25,3 +25,12 @@
   (is (= {}
          (coll->map :id identity [])
          (coll->map :id identity #{}))))
+
+(deftest qualified-name-test
+  (are [x y] (= x y)
+    "foo" (qualified-name "foo")
+    "foo" (qualified-name :foo)
+    "x/y" (qualified-name :x/y)
+    "toyokumo.commons.core-test/foo" (qualified-name ::foo)
+    "foo" (qualified-name 'foo)
+    "x/y" (qualified-name 'x/y)))

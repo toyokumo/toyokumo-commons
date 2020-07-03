@@ -3,6 +3,7 @@
 ## [Unreleased]
 ### Added
 - Add email quote and unquote util
+- Add email protocol and SendGrid implementation
 
 ## 0.2.1
 ### Added

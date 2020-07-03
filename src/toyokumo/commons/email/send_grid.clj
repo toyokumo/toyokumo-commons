@@ -85,7 +85,14 @@
   (email [this params]
     (a/<!! (email* this params)))
   (email-async [this params]
-    (email* this params)))
+    (email* this params))
+
+  tc.email/EmailResponse
+  (success? [_ response]
+    (cond
+      (instance? Throwable response) false
+      (= (:status response) 202) true
+      :else false)))
 
 (defn new-send-grid
   "Create SendGrid instance

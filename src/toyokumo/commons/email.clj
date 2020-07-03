@@ -32,3 +32,6 @@
 (defprotocol Email
   (email [_ params] "Email synchronously")
   (email-async [_ params] "Email asynchronously and return a channel of core.async"))
+
+(defprotocol EmailResponse
+  (success? [_ response] "true if the response means success"))

@@ -35,3 +35,9 @@
 
 (defprotocol EmailResponse
   (success? [_ response] "true if the response means success"))
+
+(defprotocol BounceManagement
+  (retrieve-all-bounces [_])
+  (retrieve-all-bounces-async [_])
+  (delete-bounces [_ params])
+  (delete-bounces-async [_ params]))

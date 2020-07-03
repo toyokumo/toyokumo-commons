@@ -8,6 +8,7 @@
   :plugins [[lein-ancient "0.6.15"]
             [lein-nvd "1.4.0"]]
   :dependencies [[org.clojure/clojure "1.10.1"]
+                 [org.clojure/core.async "1.2.603"]
                  [prismatic/schema "1.1.12"]
                  [camel-snake-kebab "0.4.1"]
                  [com.cognitect/transit-clj "1.0.324"]
@@ -22,8 +23,9 @@
                  [metosin/jsonista "0.2.6"]
                  [com.taoensso/carmine "2.19.1"]
                  [org.clojure/tools.logging "1.1.0"]
-                 [com.sun.mail/jakarta.mail "1.6.5"]]
+                 [com.sun.mail/jakarta.mail "1.6.5"]
+                 [clj-http "3.10.1"]
+                 [diehard "0.10.0"]]
   :source-paths ["src" "src-cljs" "src-cljc"]
   :repl-options {:init-ns toyokumo.commons.core}
-  :profiles {:dev {:dependencies [[clj-http "3.10.1"]
-                                  [org.postgresql/postgresql "42.2.12"]]}})
+  :profiles {:dev {:dependencies [[org.postgresql/postgresql "42.2.12"]]}})

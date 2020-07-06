@@ -4,6 +4,7 @@
 ### Added
 - Add email quote and unquote util
 - Add email protocol and SendGrid implementation
+- Make transit enable to use from cljs
 
 ## 0.2.1
 ### Added

@@ -12,6 +12,7 @@
                  [prismatic/schema "1.1.12"]
                  [camel-snake-kebab "0.4.1"]
                  [com.cognitect/transit-clj "1.0.324"]
+                 [com.cognitect/transit-cljs "0.8.264"]
                  [commons-codec/commons-codec "1.14"]
                  [metosin/ring-http-response "0.9.1" :exclusions [ring/ring-core]]
                  [org.apache.commons/commons-csv "1.8"]

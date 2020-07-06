@@ -1,21 +1,24 @@
 (ns toyokumo.commons.transit
   (:require
-   [cognitect.transit :as t]
-   [schema.core :as s])
+   [cognitect.transit :as t])
   (:import
    (java.io
     ByteArrayInputStream
     ByteArrayOutputStream)))
 
-(s/defn transit-encode :- s/Str
-  [x :- s/Any]
+(defn transit-encode
+  ^String [x & [{:keys [type opts]}]]
   (let [out (ByteArrayOutputStream.)
-        writer (t/writer out :json)]
+        type (or type :json)
+        opts (or opts {})
+        writer (t/writer out type opts)]
     (t/write writer x)
     (str out)))
 
-(s/defn transit-decode :- s/Any
-  [s :- s/Str]
+(defn transit-decode
+  [^String s & [{:keys [type opts]}]]
   (let [in (ByteArrayInputStream. (.getBytes s))
-        reader (t/reader in :json)]
+        type (or type :json)
+        opts (or opts {})
+        reader (t/reader in type opts)]
     (t/read reader)))

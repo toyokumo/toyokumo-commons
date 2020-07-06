@@ -136,7 +136,7 @@
   (success? [_ response]
     (cond
       (instance? Throwable response) false
-      (= (:status response) 202) true
+      (<= 200 (:status response) 299) true
       :else false))
 
   tc.email/BounceManagement

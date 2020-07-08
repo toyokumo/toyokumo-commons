@@ -5,6 +5,7 @@
 - Add email quote and unquote util
 - Add email protocol and SendGrid implementation
 - Make transit enable to use from cljs
+- Fix `qualified-name` to work on cljs
 
 ## 0.2.1
 ### Added

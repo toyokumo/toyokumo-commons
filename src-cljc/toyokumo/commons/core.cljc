@@ -12,5 +12,5 @@
   [x]
   (cond
     (string? x) x
-    (keyword? x) (.toString (.sym ^clojure.lang.Keyword x))
+    (keyword? x) (.toString (symbol ^clojure.lang.Keyword x))
     :else (.toString x)))

@@ -8,12 +8,16 @@
 ;; 20X
 (def ok res/ok)
 (def created res/created)
+(def accepted res/accepted)
 (def no-content res/no-content)
 
 ;; 30X
+(def moved-permanently res/moved-permanently)
 (def found res/found)
 (def see-other res/see-other)
 (def not-modified res/not-modified)
+(def temporary-redirect res/temporary-redirect)
+(def permanent-redirect res/permanent-redirect)
 
 ;; 40X
 (def bad-request res/bad-request)
@@ -22,6 +26,8 @@
 (def not-found res/not-found)
 (def not-found! res/not-found!)
 (def not-acceptable res/not-acceptable)
+(def conflict res/conflict)
+(def gone res/gone)
 (def too-many-requests res/too-many-requests)
 
 ;; 50X

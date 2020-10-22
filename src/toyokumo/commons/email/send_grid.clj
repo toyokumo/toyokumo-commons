@@ -35,7 +35,7 @@
   [response]
   (if (and (map? response)
            (= (get-in response [:headers "Content-Type"]) "application/json"))
-    (update response :body #(tc.json/json-decode json-mapper %))
+    (update response :body #(when (seq %) (tc.json/json-decode json-mapper %)))
     response))
 
 (defn- request*

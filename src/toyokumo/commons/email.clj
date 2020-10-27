@@ -3,7 +3,7 @@
    [clojure.string :as str]
    [schema.core :as s])
   (:import
-   (javax.mail.internet
+   (jakarta.mail.internet
     AddressException
     InternetAddress)))
 

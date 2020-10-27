@@ -24,7 +24,7 @@
                  [metosin/jsonista "0.2.6"]
                  [com.taoensso/carmine "2.19.1"]
                  [org.clojure/tools.logging "1.1.0"]
-                 [com.sun.mail/jakarta.mail "1.6.5"]
+                 [com.sun.mail/jakarta.mail "2.0.0"]
                  [clj-http "3.10.1"]
                  [diehard "0.10.0"]]
   :source-paths ["src" "src-cljs" "src-cljc"]

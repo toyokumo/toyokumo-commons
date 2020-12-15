@@ -17,7 +17,7 @@
                  [metosin/ring-http-response "0.9.1" :exclusions [ring/ring-core]]
                  [org.apache.commons/commons-csv "1.8"]
                  [commons-io/commons-io "2.6"]
-                 [info.sunng/ring-jetty9-adapter "0.13.0"]
+                 [info.sunng/ring-jetty9-adapter "0.14.1"]
                  [com.stuartsierra/component "1.0.0"]
                  [hikari-cp "2.12.0"]
                  [seancorfield/next.jdbc "1.0.424"]

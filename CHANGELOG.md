@@ -1,13 +1,20 @@
 # Change Log
 
 ## [Unreleased]
+
+## 0.2.2
 ### Added
 - Add email quote and unquote util
 - Add email protocol and SendGrid implementation
-- Make transit enable to use from cljs
+
+### Fixed
 - Fix `qualified-name` to work on cljs
-- Upgrade Jetty9 #2
-- Add response types #3
+
+### Changed
+- Make transit enable to use from cljs
+- Add response types
+- Upgrade Jetty9
+- Upgrade jakarta mail
 
 ## 0.2.1
 ### Added

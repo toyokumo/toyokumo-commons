@@ -8,7 +8,7 @@
     InternetAddress)))
 
 (s/defn satisfy-rfc-822? :- s/Bool
-  "true if the mail satisfies RFC 822"
+  "true if the email satisfies RFC 822"
   [email :- s/Str]
   (try
     (.validate (InternetAddress. email))
@@ -17,7 +17,7 @@
       false)))
 
 (s/defn quote-email :- s/Str
-  "Quote local part of the mail if the email doesn't satisfy RFC 822"
+  "Quote local part of the email if it doesn't satisfy RFC 822"
   [email :- s/Str]
   (if (satisfy-rfc-822? email)
     email

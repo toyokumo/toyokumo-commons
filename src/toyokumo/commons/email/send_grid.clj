@@ -150,7 +150,7 @@
     (delete-bounces* this params)))
 
 (defn new-send-grid
-  "Create SendGrid instance
+  "Create a SendGrid instance
 
   api-token          -  token that you get from SendGrid
                         required

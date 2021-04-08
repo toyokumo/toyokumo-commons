@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## 0.2.3
+### Changed and breaking
+- Bump versions #7, which includes [this breaking change](https://github.com/ptaoussanis/carmine/blob/master/CHANGELOG.md#v300--2020-sep-22).
+
 ## 0.2.2
 ### Added
 - Add email quote and unquote util

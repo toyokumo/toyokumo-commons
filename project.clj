@@ -7,7 +7,7 @@
                         ["snapshots" :clojars]]
   :plugins [[lein-ancient "0.7.0"]
             [lein-nvd "1.4.1"]]
-  :dependencies [[org.clojure/clojure "1.10.3" ]
+  :dependencies [[org.clojure/clojure "1.10.3"]
                  [org.clojure/core.async "1.3.610" :exclusions [org.clojure/tools.reader]]
                  [prismatic/schema "1.1.12"]
                  [camel-snake-kebab "0.4.2"]
@@ -18,7 +18,10 @@
                  [org.apache.commons/commons-csv "1.8"]
                  [commons-io/commons-io "2.8.0"]
                  [info.sunng/ring-jetty9-adapter "0.14.3" :exclusions [org.eclipse.jetty/jetty-alpn-conscrypt-server
-                                                                       org.conscrypt/conscrypt-openjdk-uber]]
+                                                                       org.conscrypt/conscrypt-openjdk-uber
+                                                                       org.eclipse.jetty/jetty-server]]
+                 ;; cf. https://github.com/advisories/GHSA-vjv5-gp2w-65vm
+                 [org.eclipse.jetty/jetty-server "9.4.44.v20210927"]
                  [com.stuartsierra/component "1.0.0"]
                  [hikari-cp "2.13.0"]
                  [com.github.seancorfield/next.jdbc "1.1.646"]

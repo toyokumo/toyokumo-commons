@@ -36,7 +36,7 @@ jobs:
 
       - uses: DeLaGuardo/setup-clojure@master
         with:
-          cli: latest
+          lein: latest
 
       - name: Show versions
         run: |

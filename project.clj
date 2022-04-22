@@ -17,9 +17,7 @@
                  [metosin/ring-http-response "0.9.3" :exclusions [ring/ring-core]]
                  [org.apache.commons/commons-csv "1.9.0"]
                  [commons-io/commons-io "2.11.0"]
-                 [info.sunng/ring-jetty9-adapter "0.17.6" :exclusions [org.eclipse.jetty/jetty-server]]
-                 ;; cf. https://github.com/advisories/GHSA-vjv5-gp2w-65vm
-                 [org.eclipse.jetty/jetty-server "10.0.9"]
+                 [info.sunng/ring-jetty9-adapter "0.17.6"]
                  [com.stuartsierra/component "1.1.0"]
                  [hikari-cp "2.14.0"]
                  [com.github.seancorfield/next.jdbc "1.2.772"]

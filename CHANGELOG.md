@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+### Breaking
+- JDK 8 support was dropped because updated to Jetty 10.
 
 ## 0.2.3
 ### Changed and breaking

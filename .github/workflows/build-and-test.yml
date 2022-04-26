@@ -36,24 +36,19 @@ jobs:
 
       - uses: DeLaGuardo/setup-clojure@master
         with:
-          lein: latest
+          cli: latest
 
       - name: Show versions
         run: |
           java -version
-          lein version
+          clojure --version
 
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
           path: ~/.m2
-          key: v2-dependencies-${{ hashFiles('project.clj') }}
+          key: clj-cache-${{ hashFiles('**/deps.edn') }}
           restore-keys: |
-            v2-dependencies-${{ hashFiles('project.clj') }}
-            v2-dependencies-
-
-      - name: Fetch dependencies
-        run: lein deps
-
+            clj-cache-
       - name: Test
-        run: lein test
+        run: make test

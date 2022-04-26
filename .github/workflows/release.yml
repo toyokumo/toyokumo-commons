@@ -1,0 +1,44 @@
+name: Tag and Release
+
+on: workflow_dispatch
+
+jobs:
+  tag-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+          java-package: jdk
+          architecture: x64
+
+      - uses: DeLaGuardo/setup-clojure@master
+        with:
+          cli: latest
+
+      - name: Show versions
+        run: |
+          java -version
+          clojure --version
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: clj-cache-${{ hashFiles('**/deps.edn') }}
+          restore-keys: |
+            clj-cache-
+
+      - name: Create tag
+        run: clojure -T:build tag
+
+      - name: Deploy to clojars
+        run: clojure -T:build deploy
+        env:
+          CLOJARS_PASSWORD: ${{secrets.CLOJARS_PASSWORD}}
+          CLOJARS_USERNAME: ${{secrets.CLOJARS_USERNAME}}

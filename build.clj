@@ -10,7 +10,8 @@
 (def ^:private jar-file "target/toyokumo-commons.jar")
 (def ^:private scm {:connection "scm:git:git://github.com/toyokumo/toyokumo-commons.git"
                     :developerConnection "scm:git:ssh://git@github.com/toyokumo/toyokumo-commons.git"
-                    :url "https://github.com/toyokumo/toyokumo-commons"})
+                    :url "https://github.com/toyokumo/toyokumo-commons"
+                    :tag version})
 
 (defn pom
   [_]

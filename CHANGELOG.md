@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 - Improve and add lint settings
+- Add Intellij settings
 
 ## 0.3.121
 ### Breaking

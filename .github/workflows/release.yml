@@ -1,32 +1,14 @@
-name: Build and Test
+name: Tag and Release
 
-on:
-  push:
-    tags-ignore:
-      - '*'
-    branches:
-      - '*'
+on: workflow_dispatch
 
 jobs:
-  buid-and-test:
+  tag-and-release:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:alpine
-        ports:
-          - 5432:5432
-        env:
-          TZ: Asia/Tokyo
-          POSTGRES_USER: toyokumo
-          POSTGRES_PASSWORD: commons
-          POSTGRES_DB: toyokumo
-      redis:
-        image: redis:alpine
-        ports:
-          - 6379:6379
-
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-java@v3
         with:
@@ -51,5 +33,12 @@ jobs:
           key: clj-cache-${{ hashFiles('**/deps.edn') }}
           restore-keys: |
             clj-cache-
-      - name: Test
-        run: make test
+
+      - name: Create tag
+        run: clojure -T:build tag
+
+      - name: Deploy to clojars
+        run: clojure -T:build deploy
+        env:
+          CLOJARS_PASSWORD: ${{secrets.CLOJARS_PASSWORD}}
+          CLOJARS_USERNAME: ${{secrets.CLOJARS_USERNAME}}

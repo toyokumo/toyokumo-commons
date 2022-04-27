@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## 0.3.121
+### Breaking
+- Use deps.edn instead of Leiningen.
+
+### Changed
+- Use GitHub actions instead of CircleCI.
+
 ## 0.3.0
 ### Breaking
 - JDK 8 support was dropped because updated to Jetty 10.

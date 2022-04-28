@@ -1,4 +1,4 @@
-(ns toyokumo.commons.db.postgresql
+(ns ^:no-doc toyokumo.commons.db.postgresql
   (:require
    [camel-snake-kebab.core :as csk]
    [clojure.java.io :as io]

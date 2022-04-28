@@ -1,4 +1,4 @@
-(ns toyokumo.commons.db.extension.postgresql
+(ns ^:no-doc toyokumo.commons.db.extension.postgresql
   "Provides extensions of reading objects that are in PostgreSQL from the `java.sql.ResultSet`
   or setting SQL parameters in statement objects.
   See also next.jdbc.date-time, which provides default datetime extensions."

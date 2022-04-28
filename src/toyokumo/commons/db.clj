@@ -32,13 +32,13 @@
   You may want to change it to formatting sql function that a sql library provides"
   identity)
 
-(def ^:dynamic *format-table*
+(def ^:dynamic ^:deprecated *format-table*
   "How to format table name
   Caution!
     (->snake_case \"foo1\") => foo_1"
   (comp csk/->snake_case str/lower-case name))
 
-(def ^:dynamic *format-column*
+(def ^:dynamic ^:deprecated *format-column*
   "How to format column name
   Caution!
     (->snake_case \"foo1\") => foo_1"
@@ -111,15 +111,17 @@
      (->> (jdbc/execute-one! ds sqlvec (merge opts {:return-keys false}))
           ::jdbc/update-count))))
 
-(defn- copy-in*
+(defn- ^:deprecated copy-in*
   [^HikariProxyConnection conn
    ^String sql
    ^Reader reader]
   (let [cm (CopyManager. (.unwrap conn BaseConnection))]
     (.copyIn cm sql reader)))
 
-(s/defn copy-in :- s/Int
-  "Use COPY FROM STDIN for very fast copying from a Reader into a database table
+(s/defn ^:deprecated copy-in :- s/Int
+  "Deprecated. Use toyokumo.commons.db.postgresql/copy-in
+
+  Use COPY FROM STDIN for very fast copying from a Reader into a database table
 
   ds      - implements next.jdbc.protocols/Sourceable or connection
   table   - table name. e.g. :my-data

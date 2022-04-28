@@ -2,7 +2,7 @@
   (:require
    [camel-snake-kebab.core :as csk]
    [clojure.java.io :as io]
-   [clojure.test :refer :all]
+   [clojure.test :refer [deftest use-fixtures testing is]]
    [helper :as h]
    [toyokumo.commons.csv :as tc.csv]
    [toyokumo.commons.db :as db])

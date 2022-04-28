@@ -1,6 +1,7 @@
 # Change Log
 
 ## [Unreleased]
+- Improve and add lint settings
 
 ## 0.3.121
 ### Breaking

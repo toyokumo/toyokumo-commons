@@ -39,10 +39,20 @@ jobs:
         with:
           cli: latest
 
+      - uses: 0918nobita/setup-cljstyle@v0.2.0
+        with:
+          cljstyle-version: '0.15.0'
+
+      - uses: DeLaGuardo/setup-clj-kondo@master
+        with:
+          version: '2022.04.25'
+
       - name: Show versions
         run: |
           java -version
           clojure --version
+          cljstyle version
+          clj-kondo --version
 
       - name: Cache dependencies
         uses: actions/cache@v3
@@ -51,5 +61,9 @@ jobs:
           key: clj-cache-${{ hashFiles('**/deps.edn') }}
           restore-keys: |
             clj-cache-
+
+      - name: Lint
+        run: make lint
+
       - name: Test
         run: make test

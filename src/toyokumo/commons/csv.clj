@@ -106,7 +106,7 @@
       (with-open [out (clojure.java.io/writer (io/file \"/your/file/path.csv\") :encoding \"utf-8\")]
         (let [printer (csv-printer out {:format :rfc4180})]
           (write-all printer values))))"
-  (fn [out values]
+  (fn [out _values]
     (class out)))
 
 (defmethod write-all CSVPrinter [printer values]

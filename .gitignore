@@ -13,3 +13,6 @@ pom.xml.asc
 .idea/
 toyokumo-commons.iml
 .cpcache
+
+# clj-kondo
+.clj-kondo/.cache

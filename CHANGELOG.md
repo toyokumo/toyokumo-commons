@@ -1,7 +1,11 @@
 # Change Log
 
 ## [Unreleased]
+### Breaking
 - Remove deprecated codes for PostgreSQL. Use `toyokumo.commons.db.postgresql` and `toyokumo.commons.db.extension.postgresql`
+
+### Fixed
+- Fix cljdoc to be able to generate documents correctly.
 
 ## 0.3.139
 ### Added

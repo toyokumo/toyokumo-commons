@@ -1,9 +1,7 @@
 (ns toyokumo.commons.db.extension-test
   (:require
-   [camel-snake-kebab.core :as csk]
    [clojure.test :refer :all]
    [helper :as h]
-   [jsonista.core :as json]
    [toyokumo.commons.db :as db]
    [toyokumo.commons.db.extension :as ext])
   (:import
@@ -55,38 +53,3 @@
                                      " ,array_agg(ratio) as ratios"
                                      " ,array_agg(created_at) as ats"
                                      " from toyokumo_commons")])))))
-
-(deftest json-read-write-test
-  (testing "default mapper"
-    (ext/set-json-as-parameter)
-    (ext/read-json)
-    (let [v {:id 1
-             :uid (UUID/randomUUID)
-             :foo-bar :bar
-             :arr [1 2 3]}]
-      (is (= {:my-json (-> v
-                           (update :uid str)
-                           (update :foo-bar name))}
-             (db/execute-one @h/hc
-                             ["insert into json_test (my_json) values (?)"
-                              v])))
-      (is (= [{:my-json (-> v
-                            (update :uid str)
-                            (update :foo-bar name))}]
-             (db/fetch @h/hc
-                       ["select * from json_test"])))))
-
-  (testing "custom mapper"
-    (ext/set-json-as-parameter)
-    (ext/read-json (json/object-mapper {:decode-key-fn csk/->snake_case_keyword}))
-    (let [v {:id 2
-             :uid (UUID/randomUUID)
-             :foo-bar :baz
-             :arr [1.1 2.2 3.3]}]
-      (is (= {:my-json (-> v
-                           (update :uid str)
-                           (dissoc :foo-bar)
-                           (assoc :foo_bar "baz"))}
-             (db/execute-one @h/hc
-                             ["insert into json_test (my_json) values (?)"
-                              v]))))))

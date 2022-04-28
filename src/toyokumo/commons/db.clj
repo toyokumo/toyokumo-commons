@@ -111,7 +111,7 @@
      (->> (jdbc/execute-one! ds sqlvec (merge opts {:return-keys false}))
           ::jdbc/update-count))))
 
-(defn- ^:deprecated copy-in*
+(defn- copy-in*
   [^HikariProxyConnection conn
    ^String sql
    ^Reader reader]

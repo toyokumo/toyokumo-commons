@@ -3,6 +3,7 @@
 ## [Unreleased]
 - Improve and add lint settings
 - Add Intellij settings
+- Add PostgreSQL specific namespaces
 
 ## 0.3.121
 ### Breaking

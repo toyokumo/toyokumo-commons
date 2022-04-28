@@ -1,6 +1,9 @@
 # Change Log
 
 ## [Unreleased]
+
+## 0.3.139
+### Added
 - Improve and add lint settings
 - Add Intellij settings
 - Add PostgreSQL specific namespaces

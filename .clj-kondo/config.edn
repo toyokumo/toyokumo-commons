@@ -1,1 +1,4 @@
-{:skip-comments true}
+{:skip-comments true
+ :linters {:deprecated-var {:exclude {toyokumo.commons.db/*format-table* {:namespaces [toyokumo.commons.db]}
+                                      toyokumo.commons.db/*format-column* {:namespaces [toyokumo.commons.db]}
+                                      toyokumo.commons.db/copy-in {:namespaces [toyokumo.commons.db-test]}}}}}

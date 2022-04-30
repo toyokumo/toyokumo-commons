@@ -7,6 +7,9 @@
 ### Fixed
 - Fix cljdoc to be able to generate documents correctly.
 
+### Added
+- Experimental support for GraphQL.
+
 ## 0.3.139
 ### Added
 - Improve and add lint settings

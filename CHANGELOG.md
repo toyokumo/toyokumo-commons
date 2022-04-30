@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+
+## 0.3.151
 ### Breaking
 - Remove deprecated codes for PostgreSQL. Use `toyokumo.commons.db.postgresql` and `toyokumo.commons.db.extension.postgresql`
 

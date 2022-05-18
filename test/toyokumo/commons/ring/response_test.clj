@@ -46,7 +46,19 @@
           :headers {"Content-Disposition" "attachment; filename=\"%E3%81%82%E3%81%84%E3%81%86%E3%81%88%E3%81%8A.csv\""}
           :status 200}
          (-> (ok "test")
-             (attachment "あいうえお.csv")))))
+             (attachment "あいうえお.csv"))))
+
+  (is (= {:body "test"
+          :headers {"Content-Disposition" "attachment; filename=\"hello world.csv\""}
+          :status 200}
+         (-> (ok "test")
+             (attachment "hello world.csv"))))
+
+  (is (= {:body "test"
+          :headers {"Content-Disposition" "attachment; filename=\"hello%2Bworld.csv\""}
+          :status 200}
+         (-> (ok "test")
+             (attachment "hello+world.csv")))))
 
 (deftest csv-test
   (is (= {:body "foo,bar"

@@ -1,5 +1,6 @@
 (ns toyokumo.commons.ring.response
   (:require
+   [clojure.string :as str]
    [ring.util.http-response :as res]
    [toyokumo.commons.url :as tc.url]))
 
@@ -43,6 +44,11 @@
 (defn content-disposition [resp value]
   (header resp "Content-Disposition" value))
 
+(defn- encode-filename [filename]
+  (-> filename
+      (tc.url/url-encode)
+      (str/replace "+" " ")))
+
 (defn attachment
   "Use when you want to make a client save response as a file.
   For example:
@@ -51,7 +57,7 @@
          (attachment \"foobar.csv\")
          (csv)))"
   [resp filename]
-  (content-disposition resp (str "attachment; filename=\"" (tc.url/url-encode filename) "\"")))
+  (content-disposition resp (str "attachment; filename=\"" (encode-filename filename) "\"")))
 
 ;;; Specific Content-Type
 

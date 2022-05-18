@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+### Changed
+- Exclude `slf4j-api` from dependencies.
+
+### Fixed
+- Fix `toyokumo.commons.ring.response/attachment` to handle filenames containing spaces correctly.
+
 ## 0.3.151
 ### Breaking
 - Remove deprecated codes for PostgreSQL. Use `toyokumo.commons.db.postgresql` and `toyokumo.commons.db.extension.postgresql`

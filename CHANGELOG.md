@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+## 0.3.156
 ### Changed
 - Exclude `slf4j-api` from dependencies.
 

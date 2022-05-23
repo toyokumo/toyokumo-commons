@@ -1,0 +1,10 @@
+{:lib toyokumo/toyokumo-commons
+ :version "0.3.{{git/commit-count}}"
+ :scm {:connection "scm:git:git://github.com/toyokumo/toyokumo-commons.git"
+       :developerConnection "scm:git:ssh://git@github.com/toyokumo/toyokumo-commons.git"
+       :url "https://github.com/toyokumo/toyokumo-commons"}
+ :documents [{:file "CHANGELOG.md"
+              :match "Unreleased"
+              :action :append-after
+              :text "\n## {{version}}"}]
+ :github-actions? true}

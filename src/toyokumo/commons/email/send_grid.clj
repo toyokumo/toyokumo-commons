@@ -10,10 +10,6 @@
    [toyokumo.commons.email :as tc.email]
    [toyokumo.commons.json :as tc.json]))
 
-(def send-url "https://api.sendgrid.com/v3/mail/send")
-
-(def bounce-url "https://api.sendgrid.com/v3/suppression/bounces")
-
 (def json-mapper
   (json/object-mapper {:escape-non-ascii true
                        :decode-key-fn keyword}))
@@ -76,7 +72,8 @@
   [{:as this
     :keys [:api-token
            :default-email-body
-           :rate-limiter]}
+           :rate-limiter
+           :send-url]}
    {:keys [:body]}]
   (let [body (tc.json/json-encode json-mapper (merge default-email-body body))
         req {:headers {"Authorization" (str "Bearer " api-token)}
@@ -93,7 +90,7 @@
     (request* this request)))
 
 (defn- retrieve-all-bounces*
-  [{:as this :keys [:api-token]}]
+  [{:as this :keys [:api-token :bounce-url]}]
   (let [req {:headers {"Authorization" (str "Bearer " api-token)}
              :content-type :json
              :async? true
@@ -103,7 +100,7 @@
     (request* this request)))
 
 (defn- delete-bounces*
-  [{:as this :keys [:api-token]}
+  [{:as this :keys [:api-token :bounce-url]}
    {:keys [:delete-all :emails]}]
   (let [body (->> (if delete-all
                     {:delete_all true}
@@ -118,13 +115,21 @@
                   (http/delete bounce-url req handler handler))]
     (request* this request)))
 
-(defrecord SendGrid [api-token default-email-body max-retry retry-wait rate-limit rate-limiter]
+(defrecord SendGrid
+  [api-token default-email-body max-retry retry-wait rate-limit rate-limiter
+   api-base-url send-url bounce-url]
   component/Lifecycle
   (start [this]
-    (assoc this :rate-limiter (when rate-limit
-                                (dh.rl/rate-limiter {:rate rate-limit}))))
+    (assoc this
+           :rate-limiter (when rate-limit
+                           (dh.rl/rate-limiter {:rate rate-limit}))
+           :send-url (str api-base-url "/v3/mail/send")
+           :bounce-url (str api-base-url "/v3/suppression/bounces")))
   (stop [this]
-    (assoc this :rate-limiter nil))
+    (assoc this
+           :rate-limiter nil
+           :send-url nil
+           :bounce-url nil))
 
   tc.email/Email
   (email [this params]
@@ -163,14 +168,18 @@
   retry-wait         -  milliseconds between retry
                         optional, default 1000
   rate-limit         -  send limit per second
-                        optional, default nil"
+                        optional, default nil
+  api-base-url       -  SendGrid API base URL
+                        optional, default https://api.sendgrid.com"
   [{:keys [:api-token
            :default-email-body
            :max-retry
            :retry-wait
-           :rate-limit]}]
+           :rate-limit
+           :api-base-url]}]
   (map->SendGrid {:api-token api-token
                   :default-email-body default-email-body
                   :max-retry (or max-retry 0)
                   :retry-wait (or retry-wait 1000)
-                  :rate-limit rate-limit}))
+                  :rate-limit rate-limit
+                  :api-base-url (or api-base-url "https://api.sendgrid.com")}))

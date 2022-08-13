@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+### Breaking
+- Make SendGrid API base URL customizable and remove them from vars.
 
 ## 0.3.156
 ### Changed

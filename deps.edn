@@ -31,7 +31,7 @@
   :test {:main-opts ["-m" "kaocha.runner"]}
 
   :build
-  {:deps {com.github.liquidz/build.edn {:git/tag "0.2.63" :git/sha "f4e571d"}}
+  {:deps {com.github.liquidz/build.edn {:git/tag "0.7.145" :git/sha "776501e"}}
    :ns-default build-edn.main}
 
   :outdated

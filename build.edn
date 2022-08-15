@@ -1,8 +1,6 @@
 {:lib toyokumo/toyokumo-commons
  :version "0.3.{{git/commit-count}}"
- :scm {:connection "scm:git:git://github.com/toyokumo/toyokumo-commons.git"
-       :developerConnection "scm:git:ssh://git@github.com/toyokumo/toyokumo-commons.git"
-       :url "https://github.com/toyokumo/toyokumo-commons"}
+ :description "Utility functions that are used in multiple Toyokumo products"
  :documents [{:file "CHANGELOG.md"
               :match "Unreleased"
               :action :append-after

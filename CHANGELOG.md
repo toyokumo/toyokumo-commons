@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+### Changed
+- Changed to use build.edn to build and deploy this library.
 
 ## 0.3.156
 ### Changed

@@ -1,0 +1,8 @@
+{:lib toyokumo/toyokumo-commons
+ :version "0.3.{{git/commit-count}}"
+ :description "Utility functions that are used in multiple Toyokumo products"
+ :documents [{:file "CHANGELOG.md"
+              :match "Unreleased"
+              :action :append-after
+              :text "\n## {{version}}"}]
+ :github-actions? true}

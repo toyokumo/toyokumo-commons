@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+### Changed
+- Changed to use build.edn to build and deploy this library.
 ### Breaking
 - Make SendGrid API base URL customizable and remove them from vars.
 

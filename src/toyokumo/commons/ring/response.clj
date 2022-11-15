@@ -55,9 +55,13 @@
    (let [csv-str \"foo, bar\"]
      (-> (ok csv-str)
          (attachment \"foobar.csv\")
-         (csv)))"
+         (csv)))
+
+  NOTE: Safari does not recognize correct filename when Content-Disposition does not contain filename*.
+        For other browsers, filename* is not required."
   [resp filename]
-  (content-disposition resp (str "attachment; filename=\"" (encode-filename filename) "\"")))
+  (let [encoded-filename (encode-filename filename)]
+    (content-disposition resp (str "attachment; filename=\"" encoded-filename "\"; filename*=UTF-8''" encoded-filename))))
 
 ;;; Specific Content-Type
 

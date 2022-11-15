@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## 0.3.167
+
 ## 0.3.164
 ### Changed
 - Changed to use build.edn to build and deploy this library.

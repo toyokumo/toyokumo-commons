@@ -38,24 +38,24 @@
 (deftest attachment-test
   (is (= {:body "test"
           :status 200
-          :headers {"Content-Disposition" "attachment; filename=\"test.csv\""}}
+          :headers {"Content-Disposition" "attachment; filename=\"test.csv\"; filename*=UTF-8''test.csv"}}
          (-> (ok "test")
              (attachment "test.csv"))))
 
   (is (= {:body "test"
-          :headers {"Content-Disposition" "attachment; filename=\"%E3%81%82%E3%81%84%E3%81%86%E3%81%88%E3%81%8A.csv\""}
+          :headers {"Content-Disposition" "attachment; filename=\"%E3%81%82%E3%81%84%E3%81%86%E3%81%88%E3%81%8A.csv\"; filename*=UTF-8''%E3%81%82%E3%81%84%E3%81%86%E3%81%88%E3%81%8A.csv"}
           :status 200}
          (-> (ok "test")
              (attachment "あいうえお.csv"))))
 
   (is (= {:body "test"
-          :headers {"Content-Disposition" "attachment; filename=\"hello world.csv\""}
+          :headers {"Content-Disposition" "attachment; filename=\"hello world.csv\"; filename*=UTF-8''hello world.csv"}
           :status 200}
          (-> (ok "test")
              (attachment "hello world.csv"))))
 
   (is (= {:body "test"
-          :headers {"Content-Disposition" "attachment; filename=\"hello%2Bworld.csv\""}
+          :headers {"Content-Disposition" "attachment; filename=\"hello%2Bworld.csv\"; filename*=UTF-8''hello%2Bworld.csv"}
           :status 200}
          (-> (ok "test")
              (attachment "hello+world.csv")))))

@@ -7,9 +7,10 @@
     GoogleCredentials)
    (com.google.firebase
     FirebaseApp
-    FirebaseOptions)))
+    FirebaseOptions
+    FirebaseOptions$Builder)))
 
-(defrecord FirebaseAdmin [service-account-key-path ^FirebaseApp app]
+(defrecord FirebaseAdmin [service-account-key-path ^FirebaseApp app ^FirebaseOptions$Builder options-builder]
   component/Lifecycle
   (start [this]
     (let [f (io/file service-account-key-path)]
@@ -17,7 +18,7 @@
         (throw (IllegalArgumentException. "Firebase service account key file does not exist")))
       (with-open [is (io/input-stream f)]
         (assoc this
-               :app (let [opts (-> (FirebaseOptions/builder)
+               :app (let [opts (-> (or options-builder (FirebaseOptions/builder))
                                    (.setCredentials (GoogleCredentials/fromStream is))
                                    (.build))]
                       (FirebaseApp/initializeApp opts))))))

@@ -22,7 +22,7 @@
     <orderEntry type="library" name="Deps: org.clojure/data.json:2.4.0" level="project" />
     <orderEntry type="library" name="Deps: org.lz4/lz4-java:1.7.1" level="project" />
     <orderEntry type="library" name="Deps: org.clojure/clojure:1.11.1" level="project" />
-    <orderEntry type="library" name="Deps: com.ibm.icu/icu4j:61.1" level="project" />
+    <orderEntry type="library" name="Deps: com.ibm.icu/icu4j:69.1" level="project" />
     <orderEntry type="library" name="Deps: commons-codec:1.15" level="project" />
     <orderEntry type="library" name="Deps: org.clojure/tools.analyzer:1.1.0" level="project" />
     <orderEntry type="library" name="Deps: org.eclipse.jetty/jetty-xml:10.0.9" level="project" />
@@ -45,7 +45,7 @@
     <orderEntry type="library" name="Deps: com.fasterxml.jackson.core/jackson-databind:2.13.0" level="project" />
     <orderEntry type="library" name="Deps: expound:0.9.0" level="project" />
     <orderEntry type="library" name="Deps: org.clojure/spec.alpha:0.3.218" level="project" />
-    <orderEntry type="library" name="Deps: org.antlr/antlr4-runtime:4.9.2" level="project" />
+    <orderEntry type="library" name="Deps: org.antlr/antlr4-runtime:4.9.3" level="project" />
     <orderEntry type="library" name="Deps: org.clojure/tools.cli:1.0.206" level="project" />
     <orderEntry type="library" name="Deps: org.eclipse.jetty.http2/http2-server:10.0.9" level="project" />
     <orderEntry type="library" name="Deps: com.google.api.grpc/proto-google-iam-v1:1.0.14" level="project" />
@@ -68,7 +68,7 @@
     <orderEntry type="library" name="Deps: funcool/urania:0.2.0" level="project" />
     <orderEntry type="library" name="Deps: diehard:0.11.3" level="project" />
     <orderEntry type="library" name="Deps: io.netty/netty-codec:4.1.67.Final" level="project" />
-    <orderEntry type="library" name="Deps: org.antlr/ST4:4.3" level="project" />
+    <orderEntry type="library" name="Deps: org.antlr/ST4:4.3.1" level="project" />
     <orderEntry type="library" name="Deps: com.google.api/api-common:1.10.4" level="project" />
     <orderEntry type="library" name="Deps: org.eclipse.jetty/jetty-annotations:10.0.9" level="project" />
     <orderEntry type="library" name="Deps: lambdaisland/deep-diff:0.0-47" level="project" />
@@ -98,7 +98,7 @@
     <orderEntry type="library" name="Deps: org.eclipse.jetty.http2/http2-hpack:10.0.9" level="project" />
     <orderEntry type="library" name="Deps: fipp:0.6.17" level="project" />
     <orderEntry type="library" name="Deps: org.eclipse.jetty/jetty-plus:10.0.9" level="project" />
-    <orderEntry type="library" name="Deps: com.walmartlabs/lacinia:1.1" level="project" />
+    <orderEntry type="library" name="Deps: com.walmartlabs/lacinia:1.2" level="project" />
     <orderEntry type="library" name="Deps: com.nextjournal/beholder:1.0.0" level="project" />
     <orderEntry type="library" name="Deps: com.fasterxml.jackson.core/jackson-core:2.13.0" level="project" />
     <orderEntry type="library" name="Deps: org.eclipse.jetty.websocket/websocket-servlet:10.0.9" level="project" />
@@ -190,11 +190,11 @@
     <orderEntry type="library" name="Deps: hawk:0.2.11" level="project" />
     <orderEntry type="library" name="Deps: tech.droit/clj-diff:1.0.1" level="project" />
     <orderEntry type="library" name="Deps: camel-snake-kebab:0.4.2" level="project" />
-    <orderEntry type="library" name="Deps: clj-antlr:0.2.10" level="project" />
+    <orderEntry type="library" name="Deps: clj-antlr:0.2.12" level="project" />
     <orderEntry type="library" name="Deps: io.grpc/grpc-grpclb:1.39.0" level="project" />
     <orderEntry type="library" name="Deps: org.clojure/data.priority-map:1.1.0" level="project" />
     <orderEntry type="library" name="Deps: org.clojure/java.data:1.0.95" level="project" />
-    <orderEntry type="library" name="Deps: org.antlr/antlr4:4.9.2" level="project" />
+    <orderEntry type="library" name="Deps: org.antlr/antlr4:4.9.3" level="project" />
     <orderEntry type="library" name="Deps: com.sun.mail/jakarta.mail:2.0.1" level="project" />
     <orderEntry type="library" name="Deps: org.eclipse.jetty/jetty-server:10.0.9" level="project" />
     <orderEntry type="library" name="Deps: io.opencensus/opencensus-api:0.28.0" level="project" />

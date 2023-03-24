@@ -3,10 +3,16 @@
 ## [Unreleased]
 
 ## 0.3.174
+### Changed
+- Bumped lacinia to 1.2.
 
 ## 0.3.171
+### Changed
+- Enabled `toyokumo.commons.experimental.firebase.admin-sdk/FirebaseAdmin` to specify `FirebaseOptions$Builder` via the `options-builder` option.
 
 ## 0.3.167
+### Fixed
+- Fixed `toyokumo.commons.ring.response/attachment` to work correctly with Safari.
 
 ## 0.3.164
 ### Changed

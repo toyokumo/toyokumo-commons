@@ -16,7 +16,7 @@
         metosin/jsonista {:mvn/version "0.3.5"}
         com.taoensso/carmine {:mvn/version "3.1.0"}
         org.clojure/tools.logging {:mvn/version "1.2.4"}
-        com.sun.mail/jakarta.mail {:mvn/version "2.0.1"}
+        org.eclipse.angus/angus-mail {:mvn/version "2.0.2"}
         clj-http/clj-http {:mvn/version "3.12.3"}
         diehard/diehard {:mvn/version "0.11.3"}}
  :aliases

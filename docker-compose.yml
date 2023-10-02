@@ -1,0 +1,15 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:alpine
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=commons
+      - POSTGRES_USER=toyokumo
+      - POSTGRES_DB=toyokumo
+      - TZ=Asia/Tokyo
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379

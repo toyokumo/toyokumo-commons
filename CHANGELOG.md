@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+
+## 0.3.182
 ### Changed
 - Updated to use `org.eclipse.angus/angus-mail` instead of `com.sun.mail/jakarta.mail`.
   - Jakarta Mail implementation had been moved to Eclipse Angus.

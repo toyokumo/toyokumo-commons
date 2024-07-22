@@ -38,14 +38,8 @@ jobs:
       - uses: DeLaGuardo/setup-clojure@master
         with:
           cli: latest
-
-      - uses: 0918nobita/setup-cljstyle@v0.5.4
-        with:
-          cljstyle-version: '0.16.626'
-
-      - uses: DeLaGuardo/setup-clj-kondo@master
-        with:
-          version: '2024.05.24'
+          cljstyle: latest
+          clj-kondo: latest
 
       - name: Show versions
         run: |

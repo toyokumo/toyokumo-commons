@@ -33,3 +33,5 @@ pom.xml.asc
 .idea/replstate.xml
 .idea/httpRequests
 .idea/libraries/
+
+.lsp/

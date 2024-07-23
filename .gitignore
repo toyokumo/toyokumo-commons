@@ -33,3 +33,7 @@ pom.xml.asc
 .idea/replstate.xml
 .idea/httpRequests
 .idea/libraries/
+.idea/git_toolbox_blame.xml
+.idea/git_toolbox_prj.xml
+
+.lsp/

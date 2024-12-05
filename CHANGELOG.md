@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+### Breaking
+- Add `enable-introspection` option to Lacinia component. If you want to enable introspection, you need to set `enable-introspection` to `true` explicitly.
 
 ## 0.3.195
 ### Changed

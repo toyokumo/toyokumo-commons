@@ -6,7 +6,7 @@
    [com.walmartlabs.lacinia.schema :as l.schema]
    [com.walmartlabs.lacinia.util :as l.util]))
 
-(defrecord Lacinia [sdl-path resolver compiled-schema]
+(defrecord Lacinia [sdl-path enable-introspection? resolver compiled-schema]
   component/Lifecycle
   (start [this]
     (if-let [sdl (io/resource sdl-path)]
@@ -14,7 +14,7 @@
           slurp
           l.parser.schema/parse-schema
           (l.util/inject-resolvers (:resolvers resolver))
-          l.schema/compile
+          (l.schema/compile {:enable-introspection? (boolean enable-introspection?)})
           (->> (assoc this :compiled-schema)))
       (throw (IllegalArgumentException. (str "Schema Definition Language file can not find in " sdl-path)))))
   (stop [this]

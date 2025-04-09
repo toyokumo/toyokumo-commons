@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+### Added
+- Add `with-graceful-shutdown` macro.
 
 ## 0.3.199
 ### Breaking

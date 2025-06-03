@@ -1,6 +1,7 @@
 (ns toyokumo.commons.aws.dynamo-db.request
   (:require
-   [schema.core :as s])
+   [schema.core :as s]
+   [toyokumo.commons.aws.dynamo-db.format :as format])
   (:import
    (software.amazon.awssdk.services.dynamodb
     DynamoDbClient)
@@ -10,7 +11,7 @@
 
 (s/defschema PartitionKey {s/Str AttributeValue})
 
-(s/defschema DynamoDbItem {s/Str AttributeValue})
+(s/defschema DynamoDbItem {s/Str (s/cond-pre s/Int s/Str s/Bool nil)})
 
 (s/defn ^:private build-get-item-request
   "Builds a GetItemRequest to retrieve an item from the specified table using the partition key."
@@ -33,4 +34,5 @@
     (when (.hasItem get-item-res)
       (-> (.item get-item-res)
           ;; convert Map<String, AttributeValue> to clojure map
-          (update-keys identity)))))
+          (update-keys identity)
+          (update-vals #(format/attribute-value->clj %))))))

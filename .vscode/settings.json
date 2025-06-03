@@ -1,0 +1,12 @@
+{
+  "runOnSave.commands": [
+    {
+      "match": ".*\\.clj[cs]?$",
+      "command": "cljstyle fix ${file}",
+      "runIn": "backend",
+      "async": true
+    }
+  ],
+  "calva.evalOnSave": true,
+  "calva.enableClojureLspOnStart": "when-file-opened-use-furthest-project"
+}

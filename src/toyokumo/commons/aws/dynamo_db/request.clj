@@ -22,7 +22,7 @@
             (.s value)
             (.build))})
 
-(s/defschema DynamoDbItem {s/Str (s/cond-pre s/Int s/Str s/Bool nil)})
+(s/defschema DynamoDbItem {s/Str (s/maybe (s/cond-pre s/Int s/Str s/Bool))})
 
 (s/defn ^:private build-get-item-request
   "Builds a GetItemRequest to retrieve an item from the specified table using the partition key."
@@ -46,4 +46,4 @@
       (-> (.item get-item-res)
           ;; convert Map<String, AttributeValue> to clojure map
           (update-keys identity)
-          (update-vals #(format/attribute-value->clj %))))))
+          (update-vals format/attribute-value->clj)))))

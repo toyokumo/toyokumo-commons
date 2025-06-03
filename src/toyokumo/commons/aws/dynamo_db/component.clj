@@ -1,7 +1,9 @@
 (ns toyokumo.commons.aws.dynamo-db.component
   (:require
    [com.stuartsierra.component :as component]
-   [schema.core :as s])
+   [schema.core :as s]
+   [toyokumo.commons.aws.dynamo-db.protocol :as tc.ddb.protocol]
+   [toyokumo.commons.aws.dynamo-db.request :as tc.ddb.req])
   (:import
    (java.net
     URI)
@@ -32,4 +34,8 @@
   (stop [this]
     (when-let [client (:client this)]
       (.close client))
-    (assoc this :client nil)))
+    (assoc this :client nil))
+
+  tc.ddb.protocol/IDynamoDb
+  (get-item [this table-name partition-key]
+    (tc.ddb.req/get-item (:client this) table-name partition-key)))

@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+### Added
+- Add `executors` option to Lacinia component. If you want to set custom executors, you can use this option.
 
 ## 0.3.205
 ### Added

@@ -1,5 +1,5 @@
 {:lib toyokumo/toyokumo-commons
- :version "0.3.{{git/commit-count}}"
+ :version "0.4.{{git/commit-count}}"
  :description "Utility functions that are used in multiple Toyokumo products"
  :licenses [{:name "APACHE LICENSE, VERSION 2.0"
              :url "https://www.apache.org/licenses/LICENSE-2.0"}]

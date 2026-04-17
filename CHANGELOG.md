@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## 0.4.218
+
 ### Breaking
 - Drop Java 11 support. Supported Java versions are now 17, 21, and 25.
 

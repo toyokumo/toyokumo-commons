@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+### Breaking
+- Drop Java 11 support. Supported Java versions are now 17, 21, and 25.
+
+### Changed
+- Bump dependencies.
+
 ## 0.3.209
 ### Added
 - Add `executors` option to Lacinia component. If you want to set custom executors, you can use this option.

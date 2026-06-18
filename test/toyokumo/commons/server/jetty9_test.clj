@@ -119,3 +119,16 @@
           ;; Always release the request and stop the server, even on assertion failure.
           (deliver release true)
           (jetty9/stop-server server))))))
+
+(deftest build-opts-test
+  (testing "throws when :graceful-shutdown has no valid :stop-timeout-ms"
+    (is (thrown-with-msg?
+         clojure.lang.ExceptionInfo
+         #"stop-timeout-ms"
+          (#'sut/build-opts {:graceful-shutdown {}}))))
+  (testing "an explicit :configurator takes priority and :graceful-shutdown is dropped"
+    (let [user-configurator (fn [_server] nil)
+          result (#'sut/build-opts {:configurator user-configurator
+                                    :graceful-shutdown {:stop-timeout-ms 5000}})]
+      (is (identical? user-configurator (:configurator result)))
+      (is (not (contains? result :graceful-shutdown))))))

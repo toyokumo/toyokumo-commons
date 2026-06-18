@@ -51,12 +51,35 @@
       (.setHandler graceful (.getHandler server))
       (.setHandler server graceful))))
 
+(defn- build-opts
+  "Builds the opts passed to run-jetty. When :graceful-shutdown is set, converts
+  it into a configurator that installs the GracefulHandler. If an explicit
+  :configurator is also given, it takes priority and graceful shutdown is not
+  applied."
+  [{:keys [graceful-shutdown configurator] :as opts}]
+  (cond
+    (nil? graceful-shutdown)
+    opts
+
+    ;; When :configurator is given it takes priority, so graceful-shutdown is ignored.
+    configurator
+    (dissoc opts :graceful-shutdown)
+
+    :else
+    (let [{:keys [stop-timeout-ms]} graceful-shutdown]
+      (when-not (and (integer? stop-timeout-ms) (pos? stop-timeout-ms))
+        (throw (ex-info "Jetty9Server :graceful-shutdown requires a positive integer :stop-timeout-ms"
+                        {:graceful-shutdown graceful-shutdown})))
+      (-> opts
+          (dissoc :graceful-shutdown)
+          (assoc :configurator (graceful-configurator stop-timeout-ms))))))
+
 (defrecord Jetty9Server [handler opts ^Server server]
   component/Lifecycle
   (start [this]
     (if server
       this
-      (assoc this :server (jetty9/run-jetty (:handler handler) opts))))
+      (assoc this :server (jetty9/run-jetty (:handler handler) (build-opts opts)))))
   (stop [this]
     (when server
       (jetty9/stop-server server))

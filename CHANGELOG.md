@@ -3,10 +3,11 @@
 ## [Unreleased]
 
 ### Added
-- Add `:graceful-shutdown` option to `toyokumo.commons.server.jetty9/Jetty9Server`.
-  When set to `{:stop-timeout-ms N}`, the server drains in-flight HTTP requests on
-  SIGTERM (rejecting new requests with 503) before stopping, waiting up to N ms.
-  If an explicit `:configurator` is also given, it takes priority and graceful
+- `toyokumo.commons.server.jetty9/Jetty9Server` now performs graceful shutdown by
+  default: on SIGTERM the server drains in-flight HTTP requests (rejecting new
+  requests with 503) before stopping, waiting up to `default-stop-timeout-ms`
+  (25s). Pass `:graceful-shutdown {:stop-timeout-ms N}` to override the timeout.
+  If an explicit `:configurator` is given, it takes priority and graceful
   shutdown is not applied.
 
 ## 0.4.218

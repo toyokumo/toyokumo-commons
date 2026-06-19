@@ -121,11 +121,15 @@
           (jetty9/stop-server server))))))
 
 (deftest build-opts-test
-  (testing "throws when :graceful-shutdown has no valid :stop-timeout-ms"
+  (testing "graceful shutdown is enabled by default (a configurator is installed)"
+    (let [result (#'sut/build-opts {})]
+      (is (fn? (:configurator result)))
+      (is (not (contains? result :graceful-shutdown)))))
+  (testing "throws when an explicit :stop-timeout-ms is not a positive integer"
     (is (thrown-with-msg?
          clojure.lang.ExceptionInfo
          #"stop-timeout-ms"
-          (#'sut/build-opts {:graceful-shutdown {}}))))
+          (#'sut/build-opts {:graceful-shutdown {:stop-timeout-ms 0}}))))
   (testing "an explicit :configurator takes priority and :graceful-shutdown is dropped"
     (let [user-configurator (fn [_server] nil)
           result (#'sut/build-opts {:configurator user-configurator

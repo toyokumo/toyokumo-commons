@@ -51,22 +51,23 @@
       (.setHandler graceful (.getHandler server))
       (.setHandler server graceful))))
 
+(def default-stop-timeout-ms
+  "Default graceful shutdown stop timeout in milliseconds, used when
+  :stop-timeout-ms is not specified. Adjust per product as needed via the
+  Jetty9Server :graceful-shutdown {:stop-timeout-ms N} option, e.g. to fit the
+  deployment platform's shutdown grace period."
+  25000)
+
 (defn- build-opts
-  "Builds the opts passed to run-jetty. When :graceful-shutdown is set, converts
-  it into a configurator that installs the GracefulHandler. If an explicit
-  :configurator is also given, it takes priority and graceful shutdown is not
-  applied."
+  "Builds the opts passed to run-jetty. Graceful shutdown is enabled by default,
+  installing a GracefulHandler with default-stop-timeout-ms; pass
+  :graceful-shutdown {:stop-timeout-ms N} to override the timeout. If an explicit
+  :configurator is given, it takes priority and graceful shutdown is not applied."
   [{:keys [graceful-shutdown configurator] :as opts}]
-  (cond
-    (nil? graceful-shutdown)
-    opts
-
+  (if configurator
     ;; When :configurator is given it takes priority, so graceful-shutdown is ignored.
-    configurator
     (dissoc opts :graceful-shutdown)
-
-    :else
-    (let [{:keys [stop-timeout-ms]} graceful-shutdown]
+    (let [stop-timeout-ms (get graceful-shutdown :stop-timeout-ms default-stop-timeout-ms)]
       (when-not (and (integer? stop-timeout-ms) (pos? stop-timeout-ms))
         (throw (ex-info "Jetty9Server :graceful-shutdown requires a positive integer :stop-timeout-ms"
                         {:graceful-shutdown graceful-shutdown})))

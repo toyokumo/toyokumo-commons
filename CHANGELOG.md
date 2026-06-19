@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## 0.4.225
+
 ### Added
 - `toyokumo.commons.server.jetty9/Jetty9Server` now performs graceful shutdown by
   default: on SIGTERM the server drains in-flight HTTP requests (rejecting new

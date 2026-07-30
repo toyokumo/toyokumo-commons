@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:alpine
+        image: postgres:18-alpine
         ports:
           - 5432:5432
         env:
@@ -21,7 +21,7 @@ jobs:
           POSTGRES_PASSWORD: commons
           POSTGRES_DB: toyokumo
       redis:
-        image: redis:alpine
+        image: valkey/valkey:8.1-alpine
         ports:
           - 6379:6379
 

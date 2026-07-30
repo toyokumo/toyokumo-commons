@@ -2,6 +2,22 @@
 
 ## [Unreleased]
 
+### Added
+- Add `toyokumo.commons.valkey.glide`: a Valkey client on top of the Valkey
+  GLIDE Java SDK, supporting standalone and cluster mode (e.g. ElastiCache
+  Serverless). Provides a `Glide` component (Lifecycle + HealthCheck), basic
+  commands, pluggable codecs (`default` and `carmine-compat` for migrating
+  from carmine), public low-level building blocks for defining additional
+  commands in application code, and a glide-backed Ring session store
+  (`toyokumo.commons.valkey.glide.ring.session/glide-store`).
+  See `doc/valkey-glide.md`.
+- Add direct dependencies: `io.valkey/valkey-glide`, `com.taoensso/nippy`,
+  `ring/ring-core`.
+
+### Changed
+- Local/CI test infrastructure now runs `valkey/valkey:8.1-alpine` instead of
+  `redis:alpine` (protocol-compatible; existing carmine tests are unaffected).
+
 ## 0.4.225
 
 ### Added

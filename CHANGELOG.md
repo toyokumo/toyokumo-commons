@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## 0.4.234
+
 ### Added
 - Add `toyokumo.commons.valkey.glide`: a Valkey client on top of the Valkey
   GLIDE Java SDK, supporting standalone and cluster mode (e.g. ElastiCache

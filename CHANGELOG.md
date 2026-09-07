@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+- Add `toyokumo.commons.valkey.glide/getdel`: returns the value of a key and
+  deletes it in one command.
+
 ## 0.4.234
 
 ### Added

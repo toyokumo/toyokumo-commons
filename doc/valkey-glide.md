@@ -103,10 +103,10 @@ through `glide/fut-get` (see below).
 
 ## Commands
 
-`toyokumo.commons.valkey.glide` provides: `get`, `set` (options `:ex`, `:px`,
-`:nx`, `:xx`, `:keepttl`), `setex`, `del` (variadic), `exists?`, `incr`,
-`incrby`, `decr`, `decrby`, `expire` (returns a boolean), `ttl`, `mget`,
-`keys`, `scan` and `info`.
+`toyokumo.commons.valkey.glide` provides: `get`, `getdel`, `set` (options
+`:ex`, `:px`, `:nx`, `:xx`, `:keepttl`), `setex`, `del` (variadic),
+`exists?`, `incr`, `incrby`, `decr`, `decrby`, `expire` (returns a boolean),
+`ttl`, `mget`, `keys`, `scan` and `info`.
 
 Every command accepts either a raw `BaseClient` (as returned by
 `create-client`) or a map with a `:client` key, such as the `Glide` component
@@ -132,8 +132,8 @@ so applications can supply their own.
 ## Defining commands not provided here
 
 ```clojure
-(defn getdel [client k]
-  (when-let [gs (glide/fut-get (.getdel (glide/->base-client client) (glide/str->gs k)))]
+(defn hget [client k field]
+  (when-let [gs (glide/fut-get (.hget (glide/->base-client client) (glide/str->gs k) (glide/str->gs field)))]
     (glide/decode client (glide/gs->bytes gs))))
 ```
 

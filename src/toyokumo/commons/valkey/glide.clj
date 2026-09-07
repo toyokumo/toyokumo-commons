@@ -208,6 +208,12 @@
   (when-let [^GlideString gs (fut-get (.get (->base-client client) (str->gs k)))]
     (decode client (gs->bytes gs))))
 
+(defn getdel
+  "Returns the value of key `k` and deletes it, or nil if it does not exist."
+  [client ^String k]
+  (when-let [^GlideString gs (fut-get (.getdel (->base-client client) (str->gs k)))]
+    (decode client (gs->bytes gs))))
+
 (defn set
   "Sets key `k` to `v`. Returns \"OK\", or nil when `:nx`/`:xx` is given and the condition is not met.
 

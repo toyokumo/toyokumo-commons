@@ -80,6 +80,16 @@
   (testing "missing key"
     (is (nil? (glide/get *client* (tk "missing"))))))
 
+(deftest getdel-test
+  (testing "returns the value and deletes the key"
+    (glide/set *client* (tk "getdel") {:a 1})
+    (is (= {:a 1} (glide/getdel *client* (tk "getdel"))))
+    (is (false? (glide/exists? *client* (tk "getdel"))))
+    (is (nil? (glide/getdel *client* (tk "getdel")))
+        "the key is gone, so a second call returns nil"))
+  (testing "missing key"
+    (is (nil? (glide/getdel *client* (tk "getdel-missing"))))))
+
 (deftest set-options-test
   (testing ":ex sets a TTL"
     (glide/set *client* (tk "set-ex") "v" {:ex 60})

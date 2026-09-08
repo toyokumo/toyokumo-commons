@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## 0.4.247
+
 ### Added
 - Add set commands to `toyokumo.commons.valkey.glide`: `sadd`, `srem` (both
   variadic) and `sscan` (a single SSCAN iteration taking a cursor and

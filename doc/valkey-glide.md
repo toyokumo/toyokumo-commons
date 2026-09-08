@@ -106,7 +106,7 @@ through `glide/fut-get` (see below).
 `toyokumo.commons.valkey.glide` provides: `get`, `getdel`, `set` (options
 `:ex`, `:px`, `:nx`, `:xx`, `:keepttl`), `setex`, `del` (variadic),
 `exists?`, `incr`, `incrby`, `decr`, `decrby`, `expire` (returns a boolean),
-`ttl`, `mget`, `keys`, `scan` and `info`.
+`ttl`, `mget`, `keys`, `scan`, `sadd`, `srem`, `sscan` and `info`.
 
 Every command accepts either a raw `BaseClient` (as returned by
 `create-client`) or a map with a `:client` key, such as the `Glide` component

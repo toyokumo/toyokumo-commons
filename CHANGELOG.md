@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+### Added
+- Add set commands to `toyokumo.commons.valkey.glide`: `sadd`, `srem` (both
+  variadic) and `sscan` (a single SSCAN iteration taking a cursor and
+  returning the next one with that page's members, so a scan can be paged and
+  resumed by the caller; optional COUNT and MATCH).
+  See `doc/valkey-glide.md`.
+
 ## 0.4.240
 
 ### Added

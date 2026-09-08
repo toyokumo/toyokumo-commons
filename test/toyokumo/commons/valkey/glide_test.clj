@@ -160,6 +160,100 @@
   (is (= [(tk "ks:1") (tk "ks:2")]
          (sort (glide/scan *client* (tk "ks:*"))))))
 
+(deftest set-commands-test
+  (testing "sadd returns the number of members actually added"
+    (is (= 3 (glide/sadd *client* (tk "set") "a" "b" "c")))
+    (is (= 1 (glide/sadd *client* (tk "set") "b" "d"))
+        "members already in the set are not counted")
+    (is (thrown? clojure.lang.ArityException
+          (apply glide/sadd *client* (tk "set") []))
+        "at least one member is required"))
+  (testing "srem returns the number of members actually removed"
+    (is (= 2 (glide/srem *client* (tk "set") "a" "d")))
+    (is (= 0 (glide/srem *client* (tk "set") "a"))
+        "members not in the set are not counted")
+    (is (thrown? clojure.lang.ArityException
+          (apply glide/srem *client* (tk "set") []))
+        "at least one member is required"))
+  (testing "sscan returns one page and the cursor to resume from"
+    (let [[next-cursor members] (glide/sscan *client* (tk "set") "0")]
+      (is (= "0" next-cursor)
+          "a small set is exhausted in one page")
+      (is (= ["b" "c"] (sort members)))))
+  (testing "sscan takes the cursor as a number or a string"
+    (let [[next-cursor members] (glide/sscan *client* (tk "set") 0)]
+      (is (= "0" next-cursor))
+      (is (= ["b" "c"] (sort members)))))
+  (testing "sscan paging covers every member"
+    (let [expected (set (mapv #(str "m" %) (range 3000)))]
+      (apply glide/sadd *client* (tk "set-big") expected)
+      (loop [cursor "0"
+             seen #{}
+             pages 0]
+        (let [[next-cursor members] (glide/sscan *client* (tk "set-big") cursor {:count 500})
+              seen' (into seen members)
+              pages' (inc pages)]
+          (if (= "0" next-cursor)
+            (do (is (= expected seen')
+                    "paging to the end sees every member")
+                (is (< 1 pages')
+                    "a 3000-member set does not fit in one 500-member page"))
+            (recur next-cursor seen' pages'))))))
+  (testing "sscan match filters members the codec writes as plain text"
+    (let [[_ members] (glide/sscan *client* (tk "set") "0" {:match "b"})]
+      (is (= ["b"] members)))
+    (glide/sadd *client* (tk "set-match") 42 "43")
+    (is (= #{"42" "43"} (set (second (glide/sscan *client* (tk "set-match") "0" {:match "4*"}))))
+        "integers are plain ASCII digits, so a pattern reaches them too"))
+  (testing "sscan applies match and count together"
+    (let [expected (set (filter #(re-matches #"m1\d*" %) (mapv #(str "m" %) (range 3000))))]
+      (is (= 1111 (count expected)))
+      (loop [cursor "0"
+             seen #{}]
+        (let [[next-cursor members] (glide/sscan *client* (tk "set-big") cursor
+                                                 {:match "m1*" :count 500})
+              seen' (into seen members)]
+          (if (= "0" next-cursor)
+            (is (= expected seen')
+                "match filters server-side while count pages through the set")
+            (recur next-cursor seen'))))))
+  (testing "sscan rejects a :count that is not a positive integer"
+    (doseq [cnt [0 -1 0.5 1.5 1/2]]
+      (is (thrown? IllegalArgumentException
+            (glide/sscan *client* (tk "set") "0" {:count cnt}))
+          (str ":count " cnt " would be truncated to a bad COUNT"))))
+  (testing "sscan rejects a nil cursor"
+    (is (thrown? IllegalArgumentException
+          (glide/sscan *client* (tk "set") nil))))
+  (testing "sscan rejects options that are not a map"
+    (doseq [opts [100 "100" [:count 100]]]
+      (is (thrown? IllegalArgumentException
+            (glide/sscan *client* (tk "set") "0" opts))
+          (str opts " would otherwise be ignored, silently scanning with the default count"))))
+  (testing "sscan on a missing key is an immediately complete scan"
+    (is (= ["0" []]
+           (glide/sscan *client* (tk "set-missing") "0"))))
+  (testing "members go through the client's codec"
+    (glide/sadd *client* (tk "set-codec") :ja {:a 1} 42)
+    (is (= #{:ja {:a 1} "42"}
+           (set (second (glide/sscan *client* (tk "set-codec") "0"))))
+        "integers are stored as ASCII digits and decode as strings")
+    (is (= 1 (glide/srem *client* (tk "set-codec") {:a 1}))
+        "re-encoding the same value byte for byte matches the stored member"))
+  (testing "membership follows the encoded bytes, not Clojure equality"
+    (glide/sadd *client* (tk "set-bytes") {:a 1 :b 2})
+    (let [reordered (into {} [[:b 2] [:a 1]])]
+      (is (= {:a 1 :b 2} reordered)
+          "the two maps are equal as Clojure values")
+      (is (= 0 (glide/srem *client* (tk "set-bytes") reordered))
+          "but they encode differently, so srem does not reach the stored member")
+      (is (= 1 (glide/sadd *client* (tk "set-bytes") reordered))
+          "and adding it stores a second member")))
+  (testing "set commands accept a map client"
+    (let [c {:client *client* :codec codec/carmine-compat}]
+      (is (= 1 (glide/sadd c (tk "set-map") :ja)))
+      (is (= ["ja"] (second (glide/sscan c (tk "set-map") "0")))))))
+
 (deftest info-test
   (let [s (glide/info *client*)]
     (is (string? s))

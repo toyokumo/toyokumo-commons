@@ -30,6 +30,7 @@
     SetOptions$Expiry)
    (glide.api.models.commands.scan
     ClusterScanCursor
+    SScanOptionsBinary
     ScanOptions)
    (glide.api.models.configuration
     GlideClientConfiguration
@@ -299,6 +300,20 @@
       (mapv (fn [gs] (when gs (decode client (gs->bytes gs)))) res))
     []))
 
+(defn sadd
+  "Adds `member` (and any `more` members) to the set at key `k`. Returns the number of members added."
+  ^Long [client ^String k member & more]
+  (fut-get (.sadd (->base-client client)
+                  (str->gs k)
+                  (gs-array (mapv #(bytes->gs (encode client %)) (cons member more))))))
+
+(defn srem
+  "Removes `member` (and any `more` members) from the set at key `k`. Returns the number of members removed."
+  ^Long [client ^String k member & more]
+  (fut-get (.srem (->base-client client)
+                  (str->gs k)
+                  (gs-array (mapv #(bytes->gs (encode client %)) (cons member more))))))
+
 (defn keys
   "Returns the keys matching `pattern` as a vector of strings. In cluster mode, results from all nodes are concatenated.
 
@@ -367,6 +382,44 @@
     (if (instance? GlideClusterClient c)
       (cluster-scan c pattern)
       (standalone-scan c pattern))))
+
+(defn- sscan-options
+  ^SScanOptionsBinary [^String match requested-count]
+  (let [cnt (cond
+              (nil? requested-count) (Long/valueOf (long scan-batch-size))
+              (and (integer? requested-count)
+                   (pos? requested-count)
+                   (<= requested-count Long/MAX_VALUE)) (Long/valueOf (long requested-count))
+              :else (throw (IllegalArgumentException. "sscan :count must be a positive integer")))]
+    (if match
+      (-> (SScanOptionsBinary/builder)
+          (.matchPattern (str->gs match))
+          (.count cnt)
+          (.build))
+      (-> (SScanOptionsBinary/builder)
+          (.count cnt)
+          (.build)))))
+
+(defn sscan
+  "Runs one SSCAN iteration on the set at key `k`, starting from `cursor` (`0` or `\"0\"` starts a scan). Returns
+  `[<next cursor> <members>]`; a next cursor of \"0\" ends the scan.
+
+  options:
+    :match glob applied to the *encoded* member bytes
+    :count SSCAN's COUNT (default 1000, a positive integer)"
+  ([client ^String k cursor]
+   (sscan client k cursor nil))
+  ([client ^String k cursor {:keys [match] cnt :count :as opts}]
+   (when (nil? cursor)
+     (throw (IllegalArgumentException. "sscan cursor must be 0 or a cursor from a previous iteration")))
+   (when-not (or (nil? opts) (map? opts))
+     (throw (IllegalArgumentException. "sscan options must be a map, such as {:match \"foo*\" :count 100}")))
+   (let [^objects res (fut-get (.sscan (->base-client client)
+                                       (str->gs k)
+                                       (str->gs (str cursor))
+                                       (sscan-options match cnt)))]
+     [(gs->str (aget res 0))
+      (mapv (fn [gs] (decode client (gs->bytes gs))) (aget res 1))])))
 
 (defn- ->info-section
   ^InfoOptions$Section [k]

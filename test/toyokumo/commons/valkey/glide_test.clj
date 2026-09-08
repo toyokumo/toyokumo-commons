@@ -205,11 +205,26 @@
     (glide/sadd *client* (tk "set-match") 42 "43")
     (is (= #{"42" "43"} (set (second (glide/sscan *client* (tk "set-match") "0" {:match "4*"}))))
         "integers are plain ASCII digits, so a pattern reaches them too"))
-  (testing "sscan rejects a cnt that is not a positive integer"
+  (testing "sscan applies match and count together"
+    (let [expected (set (filter #(re-matches #"m1\d*" %) (mapv #(str "m" %) (range 3000))))]
+      (is (= 1111 (count expected)))
+      (loop [cursor "0"
+             seen #{}]
+        (let [[next-cursor members] (glide/sscan *client* (tk "set-big") cursor
+                                                 {:match "m1*" :count 500})
+              seen' (into seen members)]
+          (if (= "0" next-cursor)
+            (is (= expected seen')
+                "match filters server-side while count pages through the set")
+            (recur next-cursor seen'))))))
+  (testing "sscan rejects a :count that is not a positive integer"
     (doseq [cnt [0 -1 0.5 1.5 1/2]]
       (is (thrown? IllegalArgumentException
             (glide/sscan *client* (tk "set") "0" {:count cnt}))
-          (str "cnt " cnt " would be truncated to a bad COUNT"))))
+          (str ":count " cnt " would be truncated to a bad COUNT"))))
+  (testing "sscan rejects a nil cursor"
+    (is (thrown? IllegalArgumentException
+          (glide/sscan *client* (tk "set") nil))))
   (testing "sscan on a missing key is an immediately complete scan"
     (is (= ["0" []]
            (glide/sscan *client* (tk "set-missing") "0"))))

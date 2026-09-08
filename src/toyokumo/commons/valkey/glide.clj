@@ -384,13 +384,13 @@
       (standalone-scan c pattern))))
 
 (defn- sscan-options
-  ^SScanOptionsBinary [^String match requested-cnt]
+  ^SScanOptionsBinary [^String match requested-count]
   (let [cnt (cond
-              (nil? requested-cnt) (Long/valueOf (long scan-batch-size))
-              (and (integer? requested-cnt)
-                   (pos? requested-cnt)
-                   (<= requested-cnt Long/MAX_VALUE)) (Long/valueOf (long requested-cnt))
-              :else (throw (IllegalArgumentException. "sscan cnt must be a positive integer")))]
+              (nil? requested-count) (Long/valueOf (long scan-batch-size))
+              (and (integer? requested-count)
+                   (pos? requested-count)
+                   (<= requested-count Long/MAX_VALUE)) (Long/valueOf (long requested-count))
+              :else (throw (IllegalArgumentException. "sscan :count must be a positive integer")))]
     (if match
       (-> (SScanOptionsBinary/builder)
           (.matchPattern (str->gs match))
@@ -410,6 +410,8 @@
   ([client ^String k cursor]
    (sscan client k cursor nil))
   ([client ^String k cursor {:keys [match] cnt :count}]
+   (when (nil? cursor)
+     (throw (IllegalArgumentException. "sscan cursor must be 0 or a cursor from a previous iteration")))
    (let [^objects res (fut-get (.sscan (->base-client client)
                                        (str->gs k)
                                        (str->gs (str cursor))

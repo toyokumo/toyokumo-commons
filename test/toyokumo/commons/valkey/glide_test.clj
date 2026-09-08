@@ -160,6 +160,31 @@
   (is (= [(tk "ks:1") (tk "ks:2")]
          (sort (glide/scan *client* (tk "ks:*"))))))
 
+(deftest set-commands-test
+  (testing "sadd returns the number of members actually added"
+    (is (= 3 (glide/sadd *client* (tk "set") "a" "b" "c")))
+    (is (= 1 (glide/sadd *client* (tk "set") "b" "d"))
+        "members already in the set are not counted")
+    (is (thrown? clojure.lang.ArityException
+          (apply glide/sadd *client* (tk "set") []))
+        "at least one member is required"))
+  (testing "srem returns the number of members actually removed"
+    (is (= 2 (glide/srem *client* (tk "set") "a" "d")))
+    (is (= 0 (glide/srem *client* (tk "set") "a"))
+        "members not in the set are not counted")
+    (is (thrown? clojure.lang.ArityException
+          (apply glide/srem *client* (tk "set") []))
+        "at least one member is required"))
+  (testing "membership follows the encoded bytes, not Clojure equality"
+    (glide/sadd *client* (tk "set-bytes") {:a 1 :b 2})
+    (let [reordered (into {} [[:b 2] [:a 1]])]
+      (is (= {:a 1 :b 2} reordered)
+          "the two maps are equal as Clojure values")
+      (is (= 0 (glide/srem *client* (tk "set-bytes") reordered))
+          "but they encode differently, so srem does not reach the stored member")
+      (is (= 1 (glide/sadd *client* (tk "set-bytes") reordered))
+          "and adding it stores a second member"))))
+
 (deftest info-test
   (let [s (glide/info *client*)]
     (is (string? s))

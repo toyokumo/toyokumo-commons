@@ -299,6 +299,20 @@
       (mapv (fn [gs] (when gs (decode client (gs->bytes gs)))) res))
     []))
 
+(defn sadd
+  "Adds `member` (and any `more` members) to the set at key `k`. Returns the number of members added."
+  ^Long [client ^String k member & more]
+  (fut-get (.sadd (->base-client client)
+                  (str->gs k)
+                  (gs-array (mapv #(bytes->gs (encode client %)) (cons member more))))))
+
+(defn srem
+  "Removes `member` (and any `more` members) from the set at key `k`. Returns the number of members removed."
+  ^Long [client ^String k member & more]
+  (fut-get (.srem (->base-client client)
+                  (str->gs k)
+                  (gs-array (mapv #(bytes->gs (encode client %)) (cons member more))))))
+
 (defn keys
   "Returns the keys matching `pattern` as a vector of strings. In cluster mode, results from all nodes are concatenated.
 

@@ -30,6 +30,7 @@
     SetOptions$Expiry)
    (glide.api.models.commands.scan
     ClusterScanCursor
+    SScanOptionsBinary
     ScanOptions)
    (glide.api.models.configuration
     GlideClientConfiguration
@@ -381,6 +382,40 @@
     (if (instance? GlideClusterClient c)
       (cluster-scan c pattern)
       (standalone-scan c pattern))))
+
+(defn- sscan-options
+  ^SScanOptionsBinary [^String match requested-cnt]
+  (let [cnt (cond
+              (nil? requested-cnt) (Long/valueOf (long scan-batch-size))
+              (and (integer? requested-cnt)
+                   (pos? requested-cnt)
+                   (<= requested-cnt Long/MAX_VALUE)) (Long/valueOf (long requested-cnt))
+              :else (throw (IllegalArgumentException. "sscan cnt must be a positive integer")))]
+    (if match
+      (-> (SScanOptionsBinary/builder)
+          (.matchPattern (str->gs match))
+          (.count cnt)
+          (.build))
+      (-> (SScanOptionsBinary/builder)
+          (.count cnt)
+          (.build)))))
+
+(defn sscan
+  "Runs one SSCAN iteration on the set at key `k`, starting from `cursor` (`0` or `\"0\"` starts a scan). Returns
+  `[<next cursor> <members>]`; a next cursor of \"0\" ends the scan.
+
+  options:
+    :match glob applied to the *encoded* member bytes
+    :count SSCAN's COUNT (default 1000, a positive integer)"
+  ([client ^String k cursor]
+   (sscan client k cursor nil))
+  ([client ^String k cursor {:keys [match] cnt :count}]
+   (let [^objects res (fut-get (.sscan (->base-client client)
+                                       (str->gs k)
+                                       (str->gs (str cursor))
+                                       (sscan-options match cnt)))]
+     [(gs->str (aget res 0))
+      (mapv (fn [gs] (decode client (gs->bytes gs))) (aget res 1))])))
 
 (defn- ->info-section
   ^InfoOptions$Section [k]

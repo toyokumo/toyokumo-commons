@@ -409,9 +409,11 @@
     :count SSCAN's COUNT (default 1000, a positive integer)"
   ([client ^String k cursor]
    (sscan client k cursor nil))
-  ([client ^String k cursor {:keys [match] cnt :count}]
+  ([client ^String k cursor {:keys [match] cnt :count :as opts}]
    (when (nil? cursor)
      (throw (IllegalArgumentException. "sscan cursor must be 0 or a cursor from a previous iteration")))
+   (when-not (or (nil? opts) (map? opts))
+     (throw (IllegalArgumentException. "sscan options must be a map, such as {:match \"foo*\" :count 100}")))
    (let [^objects res (fut-get (.sscan (->base-client client)
                                        (str->gs k)
                                        (str->gs (str cursor))

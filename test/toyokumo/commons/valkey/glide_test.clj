@@ -225,6 +225,11 @@
   (testing "sscan rejects a nil cursor"
     (is (thrown? IllegalArgumentException
           (glide/sscan *client* (tk "set") nil))))
+  (testing "sscan rejects options that are not a map"
+    (doseq [opts [100 "100" [:count 100]]]
+      (is (thrown? IllegalArgumentException
+            (glide/sscan *client* (tk "set") "0" opts))
+          (str opts " would otherwise be ignored, silently scanning with the default count"))))
   (testing "sscan on a missing key is an immediately complete scan"
     (is (= ["0" []]
            (glide/sscan *client* (tk "set-missing") "0"))))

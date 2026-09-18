@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+### Changed
+- Bump dependencies.
 
 ## 0.4.247
 

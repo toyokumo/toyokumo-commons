@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+### Added
+- `toyokumo.commons.experimental.firebase.admin-sdk/FirebaseAdmin` accepts
+  the service account key as a JSON string via `:service-account-key`, for
+  environments that provide the key through an environment variable or a
+  secret store rather than a file. A non-blank `:service-account-key` takes
+  precedence over `:service-account-key-path`; one of the two is required.
+
 ## 0.4.254
 ### Changed
 - Bump dependencies.
